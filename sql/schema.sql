@@ -43,19 +43,19 @@ CREATE TABLE event_set (
 	id						SERIAL PRIMARY KEY,
 
 	-- Bounding box of investigated area (Polygon in WGS84)
-	the_geom		        GEOMETRY(Polygon,4326) NOT NULL,
+	the_geom				GEOMETRY(Polygon,4326) NOT NULL,
 
 	-- The name of the geographic area covered by the present scenario hazard
 	-- analysis. Can be used by a geocoder (e.g. geopy). The user can provide
 	-- a comma-separated list of place names.
 	geographic_area_name	VARCHAR NOT NULL,
-    creation_date			DATE NOT NULL,
-    peril_type				VARCHAR NOT NULL,
+	creation_date			DATE NOT NULL,
+	peril_type				VARCHAR NOT NULL,
 	time_start				TIMESTAMP,
 	time_end				TIMESTAMP,
-    time_duration			INTERVAL,
-    description				TEXT,
-    bibliography			TEXT
+	time_duration			INTERVAL,
+	description				TEXT,
+	bibliography			TEXT
 );
 -- Geospatial index for boun
 CREATE INDEX ON event_set USING GIST(the_geom);
@@ -71,7 +71,7 @@ CREATE TABLE event (
 
 	scenario_set_id			INTEGER REFERENCES event_set(id),
 	calculation_method		VARCHAR NOT NULL, 
-    
+
 	-- TODO Check this type both for dimension and float/double
 	frequency				DOUBLE PRECISION ARRAY,
 	occurrence_prob			DOUBLE PRECISION ARRAY,
@@ -82,8 +82,8 @@ CREATE TABLE event (
 	trigger_process_type	VARCHAR,
 	
 	-- TODO think about cycle avoidance mechanisms
-    -- trigger_event_id <> id
-    -- more complex mutual cycles possible with A->B->A...
+	-- trigger_event_id <> id
+	-- more complex mutual cycles possible with A->B->A...
 	trigger_event_id		INTEGER REFERENCES event(id),
 	description				TEXT
 );
@@ -108,7 +108,7 @@ CREATE TABLE footprint_set (
 	uncertainty_dist		VARCHAR
 );
 COMMENT ON TABLE footprint_set 
-    IS 'A homogeneous set of footprints associated with an event';
+	IS 'A homogeneous set of footprints associated with an event';
 ALTER TABLE footprint_set OWNER TO hazardcontrib;
 
 --
@@ -121,18 +121,18 @@ ALTER TABLE footprint_set OWNER TO hazardcontrib;
 CREATE TABLE footprint (
 	id						SERIAL PRIMARY KEY,
 	footprint_set_id		INTEGER NOT NULL 
-                                REFERENCES footprint_set(id),
+								REFERENCES footprint_set(id),
 
-    -- TODO check that these are both necessary 
-    -- TODO consider moving into columns in footprint_data
+	-- TODO check that these are both necessary 
+	-- TODO consider moving into columns in footprint_data
 	uncertainty_2nd_moment	DOUBLE PRECISION ARRAY,
 	uncertainty_values		DOUBLE PRECISION ARRAY,
-    
+
 	-- TODO consider cycle check constraints
 	trigger_footprint_id	INTEGER REFERENCES footprint(id)
 );
 COMMENT ON TABLE footprint 
-    IS 'A single footprint or intensity field, a realization of an event';
+	IS 'A single footprint or intensity field, a realization of an event';
 ALTER TABLE footprint OWNER TO hazardcontrib;
 
 --
@@ -144,11 +144,11 @@ CREATE TABLE footprint_data (
 	id					SERIAL PRIMARY KEY,
 	footprint_id		INTEGER NOT NULL REFERENCES footprint(id),
 	the_geom			GEOMETRY(Point, 4326) NOT NULL,
-    
-    -- NOTE that "value" is a reserved word in some SQL dialects
-    -- TODO consider space optimization techniques for cases where the 
-    -- same locations are used for all footprints in a given set e.g.
-    -- by using intensity arrays, json maps or multiple columns
+
+	-- NOTE that "value" is a reserved word in some SQL dialects
+	-- TODO consider space optimization techniques for cases where the 
+	-- same locations are used for all footprints in a given set e.g.
+	-- by using intensity arrays, json maps or multiple columns
 	intensity			DOUBLE PRECISION NOT NULL
 );
 -- Geospatial index on foorprint geometry points
@@ -156,7 +156,7 @@ CREATE INDEX ON footprint_data USING GIST(the_geom);
 -- We need to be able to search quickly by footprint id
 CREATE INDEX ON footprint_data(footprint_id);
 COMMENT ON TABLE footprint_data 
-    IS 'A single point in a footprint: point location and intensity value';
+	IS 'A single point in a footprint: point location and intensity value';
 ALTER TABLE footprint_data OWNER TO hazardcontrib;
 
 
