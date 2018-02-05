@@ -1,6 +1,7 @@
 --
 -- SQL Schema for Hazard Scenario Database
 -- 
+-- vim: set ts=4:sw=4
 
 -- Usual settings copied from pg_dump output
 SET statement_timeout = 0;
@@ -158,6 +159,3 @@ CREATE INDEX ON footprint_data(footprint_id);
 COMMENT ON TABLE footprint_data 
 	IS 'A single point in a footprint: point location and intensity value';
 ALTER TABLE footprint_data OWNER TO hazardcontrib;
-
-
--- vim: set ts=4:sw=4
