@@ -1,8 +1,3 @@
-
-import json
-from json import JSONEncoder
-
-
 PERIL_TYPES = ['earthquake', 'flood', 'landslide', 'storm_surge', 'tsunami',
                'volcano']
 
@@ -13,11 +8,6 @@ PROCESS_TYPE = {'earthquake': ['ground shaking', 'primary_surface_rupture',
                               'flow', 'complex'],
                 'storm_surge': ['inundation'],
                 'volcano': ['ash_fall', 'airborne_ash', 'lahar']}
-
-
-class MyEncoder(JSONEncoder):
-    def default(self, o):
-        return o._asdict()
 
 
 class EventSet():
@@ -55,20 +45,6 @@ class EventSet():
         self.bibliography = bibliography
         self.events = events
 
-    def to_json(self, fname):
-        """
-        :param str fname:
-            The name of the file where to write json
-        :returns:
-            A JSON formatted string with the content of the eventset
-        """
-        fou = open(fname, 'w')
-        json.dump(self, fou, cls=MyEncoder, allow_nan=True, indent=4)
-        fou.close()
-
-    def _asdict(self):
-        return self.__dict__
-
 
 class Event():
     """
@@ -98,9 +74,6 @@ class Event():
         self.description = description
         self.footprints = footprints
 
-    def _asdict(self):
-        return self.__dict__
-
 
 class Footprint():
     """
@@ -128,7 +101,6 @@ class Footprint():
                  data_uncertainty_values, triggering_footprint_id):
         self.fid = fid
         self.event_id = event_id
-        # self.data = data
         self.data = data
         self.imt = imt
         self.process_type = process_type
@@ -137,7 +109,7 @@ class Footprint():
         self.data_uncertainty_values = data_uncertainty_values
         self.triggering_footprint_id = triggering_footprint_id
 
-    def _asdict(self):
-        tmpd = self.__dict__
-        tmpd['data'] = tmpd['data'].tolist()
-        return tmpd
+    def as_dict(self):
+        ret = self.__dict__
+        ret['data'] = self.data.tolist()
+        return ret

@@ -1,6 +1,7 @@
-
+#!/usr/bin/env python3
 import re
 import numpy as np
+import json
 
 from datetime import date
 from mhs import Footprint, Event, EventSet
@@ -34,7 +35,9 @@ class GmfCsv():
         A collection of np.arrays
     """
     def __init__():
-        gmfs = None
+        # MN ??
+        # gmfs = None
+        pass
 
     @classmethod
     def from_csv_file(cls, csv_fname, sites):
@@ -109,6 +112,13 @@ class GmfCsv():
         return eventset
 
 
+def dumper(obj):
+    try:
+        return obj.as_dict()
+    except:
+        return obj.__dict__
+
+
 def main():
 
     fname = './../../scenarios/Earthquakes/20180117/sitemesh-_17001.csv'
@@ -117,8 +127,8 @@ def main():
     fname = './../../scenarios/Earthquakes/20180117/gmf-data_17001.csv'
     es = GmfCsv.from_csv_file(fname, sites)
 
-    fname_out = 'sample.json'
-    es.to_json(fname_out)
+    with open('sample.json', 'w') as fout:
+        json.dump(es, fout, default=dumper, indent=2)
 
 
 if __name__ == "__main__":
