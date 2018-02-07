@@ -112,4 +112,7 @@ class Footprint():
     def as_dict(self):
         ret = self.__dict__
         ret['data'] = self.data.tolist()
+        for r, tri in enumerate(ret['data']):
+            for k, v in enumerate(tri):
+                ret['data'][r][k] = float(v)
         return ret
