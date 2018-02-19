@@ -162,10 +162,8 @@ CREATE TABLE footprint (
 	footprint_set_id		INTEGER NOT NULL 
                                 REFERENCES footprint_set(id),
 
-    -- TODO check that these are both necessary
     -- TODO consider moving into columns in footprint_data
 	uncertainty_2nd_moment	DOUBLE PRECISION ARRAY,
-	uncertainty_values		DOUBLE PRECISION ARRAY,
 
 	-- TODO consider cycle check constraints
 	trigger_footprint_id	INTEGER REFERENCES footprint(id)

@@ -1,3 +1,4 @@
+# TODO check lists of valid values, ensure they match doc and SQL schema
 PERIL_TYPES = ['earthquake', 'flood', 'landslide', 'storm_surge', 'tsunami',
                'volcano']
 
@@ -56,9 +57,9 @@ class Event():
                  occurrence_time_start=None, occurrence_time_end=None,
                  occurrence_time_span=None, trigger_peril_type=None,
                  trigger_process_type=None, trigger_event_id=None,
-                 description=None, footprints=None):
+                 description=None, footprint_sets=None):
         """
-        :param list footprints:
+        :param list footprint_sets:
         """
         self.eid = eid
         self.event_set_id = event_set_id
@@ -72,41 +73,33 @@ class Event():
         self.trigger_process_type = trigger_process_type,
         self.trigger_event_id = trigger_event_id,
         self.description = description
-        self.footprints = footprints
+        self.footprint_sets = footprint_sets
 
 
 class FootprintSet():
     """
     FootprintSet
 
-    :param str fid:
-        Footprint ID
+    :param str fsid:
+        FootprintSet ID
     :param str event_id:
         String identifying the corresponding event
-    :param data:
-        A :class:`numpy.ndarray` instance
     :param str imt:
         The string defining the intensity measure type
     :param str process_type:
         The key describing the typology of process modelled (e.g. ground
         motion)
-    :param data_uncertainty_distribution:
-    :param data_uncertainty_2nd_moment:
-    :param data_uncertainty_values:
-    :param triggering_footprint_id:
+    :param list footprints
+    :param data_uncertainty
     """
-    def __init__(self, fid, event_id, data, imt, process_type,
-                 data_uncertainty_distribution, data_uncertainty_2nd_moment,
-                 data_uncertainty_values, triggering_footprint_id):
-        self.fid = fid
-        self.event_id = event_id
-        self.data = data
+    def __init__(self, fsid, event_id, imt, process_type,
+                 footprints,
+                 data_uncertainty=None):
+        self.fsid = fsid
         self.imt = imt
         self.process_type = process_type
-        self.data_uncertainty_distribution = data_uncertainty_distribution
-        self.data_uncertainty_2nd_moment = data_uncertainty_2nd_moment
-        self.data_uncertainty_values = data_uncertainty_values
-        self.triggering_footprint_id = triggering_footprint_id
+        self.data_uncertainty = data_uncertainty
+        self.footprints = footprints
 
 
 class Footprint():
@@ -115,32 +108,21 @@ class Footprint():
 
     :param str fid:
         Footprint ID
-    :param str event_id:
-        String identifying the corresponding event
+    :param str fsid:
+        String identifying the corresponding footprint set
     :param data:
         A :class:`numpy.ndarray` instance
-    :param str imt:
-        The string defining the intensity measure type
-    :param str process_type:
-        The key describing the typology of process modelled (e.g. ground
-        motion)
-    :param data_uncertainty_distribution:
     :param data_uncertainty_2nd_moment:
-    :param data_uncertainty_values:
     :param triggering_footprint_id:
     """
 
-    def __init__(self, fid, event_id, data, imt, process_type,
-                 data_uncertainty_distribution, data_uncertainty_2nd_moment,
-                 data_uncertainty_values, triggering_footprint_id):
+    def __init__(self, fid, fsid, data,
+                 data_uncertainty_2nd_moment=None,
+                 triggering_footprint_id=None):
         self.fid = fid
-        self.event_id = event_id
+        self.fsid = fsid
         self.data = data
-        self.imt = imt
-        self.process_type = process_type
-        self.data_uncertainty_distribution = data_uncertainty_distribution
         self.data_uncertainty_2nd_moment = data_uncertainty_2nd_moment
-        self.data_uncertainty_values = data_uncertainty_values
         self.triggering_footprint_id = triggering_footprint_id
 
     def as_dict(self):
