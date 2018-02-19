@@ -1,7 +1,6 @@
 --
 -- SQL Schema for Hazard Scenario Database
 -- 
--- vim: set ts=4:sw=4
 
 -- Usual settings copied from pg_dump output
 SET statement_timeout = 0;
@@ -44,21 +43,32 @@ CREATE TABLE event_set (
 	id						SERIAL PRIMARY KEY,
 
 	-- Bounding box of investigated area (Polygon in WGS84)
-	the_geom				GEOMETRY(Polygon,4326) NOT NULL,
+	the_geom		        GEOMETRY(Polygon,4326) NOT NULL,
 
 	-- The name of the geographic area covered by the present scenario hazard
 	-- analysis. Can be used by a geocoder (e.g. geopy). The user can provide
 	-- a comma-separated list of place names.
 	geographic_area_name	VARCHAR NOT NULL,
-	creation_date			DATE NOT NULL,
-	peril_type				VARCHAR NOT NULL,
+    creation_date			DATE NOT NULL,
+
+    -- TODO consider using a lookup table OR enumerated type
+    -- Valid hazards are:
+    --  Drought             DRT
+    --  Earthquake          EQK
+    --  Flood               FLD
+    --  Lanslide            LND
+    --  Storm Surge         STS
+    --  Tsunami             TSU
+    --  Volcanic eruption   VOL
+    --
+    hazard_type				VARCHAR NOT NULL,
 	time_start				TIMESTAMP,
 	time_end				TIMESTAMP,
-	time_duration			INTERVAL,
-	description				TEXT,
-	bibliography			TEXT
+    time_duration			INTERVAL,
+    description				TEXT,
+    bibliography			TEXT
 );
--- Geospatial index for boun
+-- Geospatial index for bounding box geometry
 CREATE INDEX ON event_set USING GIST(the_geom);
 COMMENT ON TABLE event_set IS 'Collection of one or more events';
 ALTER TABLE event_set OWNER TO hazardcontrib;
@@ -69,22 +79,27 @@ ALTER TABLE event_set OWNER TO hazardcontrib;
 --
 CREATE TABLE event (
 	id	SERIAL	PRIMARY KEY,
+	event_set_id			INTEGER REFERENCES event_set(id),
 
-	scenario_set_id			INTEGER REFERENCES event_set(id),
+    -- Consider using a lookup or enumerated type
+    -- Valid methods are:
+    --  Observed            OBS
+    --  Inferred            INF
+    --  Simulated           SIM
 	calculation_method		VARCHAR NOT NULL, 
 
 	-- TODO Check this type both for dimension and float/double
 	frequency				DOUBLE PRECISION ARRAY,
-	occurrence_prob			DOUBLE PRECISION ARRAY,
+	occurrence_probability	DOUBLE PRECISION ARRAY,
 	occurrence_time_start	TIMESTAMP,
 	occurrence_time_end		TIMESTAMP,
 	occurrence_time_span	INTERVAL,
-	trigger_peril_type		VARCHAR,
+	trigger_hazard_type		VARCHAR,
 	trigger_process_type	VARCHAR,
 	
 	-- TODO think about cycle avoidance mechanisms
-	-- trigger_event_id <> id
-	-- more complex mutual cycles possible with A->B->A...
+    -- trigger_event_id <> id
+    -- more complex mutual cycles possible with A->B->A...
 	trigger_event_id		INTEGER REFERENCES event(id),
 	description				TEXT
 );
@@ -97,19 +112,42 @@ ALTER TABLE event OWNER TO hazardcontrib;
 CREATE TABLE footprint_set (
 	id						SERIAL PRIMARY KEY,
 	event_id				INTEGER NOT NULL REFERENCES event(id),
+
+    -- TODO Consider use of a lookup table or enumerated type
+    -- Valid process types
+    --  Drought                                 DRT
+    --
+    --  Earthquake: ground-motion               QGM
+    --              primary surface rupture     Q1R
+    --              secondary surface rupture   Q2R
+    --              liquefaction                QLI
+    --
+    --  Flood:      water depth                 FWD
+    --
+    --  Landslide:  rock fall                   LRF
+    --              debris flow                 LDF
+    --
+    --  Storm Surge:
+    --              inundation                  SIN
+    --
+    --  Volcaninc Eruption:
+    --              ash fall                    VAF
 	process_type			VARCHAR NOT NULL,
+    -- NOTE parameterised intensity types such as SA(0.2) are difficult
+    -- to check with a simple lookup/enumerated type.
+    --
 	imt						VARCHAR NOT NULL, 
 
 	-- Typology of uncertainty used for this specific set of footprints. 
 	-- Some potential options:
-	-- 	Event set
-	-- 	Normal 
+	-- 	Eventset        this FootprintSet will contain many Footprints
+    --  Equiprobable    this FootprintSet will contain 1 Footprint
+	-- 	Normal
 	-- 	Lognormal
-	-- 	Discrete distribution
-	uncertainty_dist		VARCHAR
+	data_uncertainty		VARCHAR
 );
 COMMENT ON TABLE footprint_set 
-	IS 'A homogeneous set of footprints associated with an event';
+    IS 'A homogeneous set of footprints associated with an event';
 ALTER TABLE footprint_set OWNER TO hazardcontrib;
 
 --
@@ -122,10 +160,10 @@ ALTER TABLE footprint_set OWNER TO hazardcontrib;
 CREATE TABLE footprint (
 	id						SERIAL PRIMARY KEY,
 	footprint_set_id		INTEGER NOT NULL 
-								REFERENCES footprint_set(id),
+                                REFERENCES footprint_set(id),
 
-	-- TODO check that these are both necessary 
-	-- TODO consider moving into columns in footprint_data
+    -- TODO check that these are both necessary
+    -- TODO consider moving into columns in footprint_data
 	uncertainty_2nd_moment	DOUBLE PRECISION ARRAY,
 	uncertainty_values		DOUBLE PRECISION ARRAY,
 
@@ -133,7 +171,7 @@ CREATE TABLE footprint (
 	trigger_footprint_id	INTEGER REFERENCES footprint(id)
 );
 COMMENT ON TABLE footprint 
-	IS 'A single footprint or intensity field, a realization of an event';
+    IS 'A single footprint or intensity field, a realization of an event';
 ALTER TABLE footprint OWNER TO hazardcontrib;
 
 --
@@ -146,10 +184,10 @@ CREATE TABLE footprint_data (
 	footprint_id		INTEGER NOT NULL REFERENCES footprint(id),
 	the_geom			GEOMETRY(Point, 4326) NOT NULL,
 
-	-- NOTE that "value" is a reserved word in some SQL dialects
-	-- TODO consider space optimization techniques for cases where the 
-	-- same locations are used for all footprints in a given set e.g.
-	-- by using intensity arrays, json maps or multiple columns
+    -- NOTE that "value" is a reserved word in some SQL dialects
+    -- TODO consider space optimization techniques for cases where the
+    -- same locations are used for all footprints in a given set e.g.
+    -- by using intensity arrays, json maps or multiple columns
 	intensity			DOUBLE PRECISION NOT NULL
 );
 -- Geospatial index on foorprint geometry points
@@ -157,5 +195,8 @@ CREATE INDEX ON footprint_data USING GIST(the_geom);
 -- We need to be able to search quickly by footprint id
 CREATE INDEX ON footprint_data(footprint_id);
 COMMENT ON TABLE footprint_data 
-	IS 'A single point in a footprint: point location and intensity value';
+    IS 'A single point in a footprint: point location and intensity value';
 ALTER TABLE footprint_data OWNER TO hazardcontrib;
+
+
+-- vim: set ts=4:sw=4

@@ -18,7 +18,7 @@ class EventSet():
     :param geographic_area_bb:
     :param geographic_area_name:
     :param creation_date:
-    :param peril_type:
+    :param hazard_type:
     :param time_start:
         ISO 8601 formatted
     :param time_end:
@@ -30,14 +30,14 @@ class EventSet():
     """
 
     def __init__(self, esid, geographic_area_bb, geographic_area_name,
-                 creation_date, peril_type, time_start=None,
+                 creation_date, hazard_type, time_start=None,
                  time_end=None, time_duration=None, description=None,
                  bibliography=None, events=None):
         self.esid = esid
         self.geographic_area_bb = geographic_area_bb
         self.geographic_area_name = geographic_area_name
         self.creation_date = creation_date
-        self.peril_type = peril_type
+        self.hazard_type = hazard_type
         self.time_start = time_start
         self.time_end = time_end
         self.time_duration = time_duration
@@ -51,7 +51,7 @@ class Event():
     Event
     """
 
-    def __init__(self, eid, scenario_set_id, calculation_method=None,
+    def __init__(self, eid, event_set_id, calculation_method=None,
                  frequency=None, occurrence_prob=None,
                  occurrence_time_start=None, occurrence_time_end=None,
                  occurrence_time_span=None, trigger_peril_type=None,
@@ -61,7 +61,7 @@ class Event():
         :param list footprints:
         """
         self.eid = eid
-        self.scenario_set_id = scenario_set_id
+        self.event_set_id = event_set_id
         self.calculation_method = calculation_method
         self.frequency = frequency,
         self.occurrence_prob = occurrence_prob,
@@ -73,6 +73,40 @@ class Event():
         self.trigger_event_id = trigger_event_id,
         self.description = description
         self.footprints = footprints
+
+
+class FootprintSet():
+    """
+    FootprintSet
+
+    :param str fid:
+        Footprint ID
+    :param str event_id:
+        String identifying the corresponding event
+    :param data:
+        A :class:`numpy.ndarray` instance
+    :param str imt:
+        The string defining the intensity measure type
+    :param str process_type:
+        The key describing the typology of process modelled (e.g. ground
+        motion)
+    :param data_uncertainty_distribution:
+    :param data_uncertainty_2nd_moment:
+    :param data_uncertainty_values:
+    :param triggering_footprint_id:
+    """
+    def __init__(self, fid, event_id, data, imt, process_type,
+                 data_uncertainty_distribution, data_uncertainty_2nd_moment,
+                 data_uncertainty_values, triggering_footprint_id):
+        self.fid = fid
+        self.event_id = event_id
+        self.data = data
+        self.imt = imt
+        self.process_type = process_type
+        self.data_uncertainty_distribution = data_uncertainty_distribution
+        self.data_uncertainty_2nd_moment = data_uncertainty_2nd_moment
+        self.data_uncertainty_values = data_uncertainty_values
+        self.triggering_footprint_id = triggering_footprint_id
 
 
 class Footprint():
