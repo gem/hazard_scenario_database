@@ -80,6 +80,7 @@ class GmfCsv():
         # storing data for the various IMTs
         gmfs = {}
         footprint_sets = []
+        events = []
         for ii, ia in enumerate(range(3, len(labels))):
             # if ii > 0:
             #     continue
@@ -112,20 +113,25 @@ class GmfCsv():
             footprint_sets.append(fps)
             footprints = []
 
-        event = Event(eid='e{:d}'.format(ii+1),
-                      event_set_id='es1',
-                      calculation_method='SIM',
-                      frequency=1./475.,
-                      occurrence_prob=None,
-                      occurrence_time_start=None,
-                      occurrence_time_end=None,
-                      occurrence_time_span=None,
-                      trigger_peril_type=None,
-                      trigger_process_type=None,
-                      trigger_event_id=None,
-                      description='Test footprints',
-                      footprint_sets=footprint_sets)
+            # TODO load meta-data from a file to replace hard
+            # coded values
+            event = Event(eid='e{:d}'.format(ii+1),
+                          event_set_id='es1',
+                          calculation_method='SIM',
+                          frequency=1./475.,
+                          occurrence_prob=None,
+                          occurrence_time_start=None,
+                          occurrence_time_end=None,
+                          occurrence_time_span=None,
+                          trigger_peril_type=None,
+                          trigger_process_type=None,
+                          trigger_event_id=None,
+                          description='Test footprints',
+                          footprint_sets=footprint_sets)
+            events.append(event)
+            footprint_sets = []
 
+        # TODO load meta-data from a file to replace hard coded values
         descr = 'Sample scenarios for Dodoma, Tanzania'
         eventset = EventSet(esid='es1',
                             geographic_area_bb=[-9., 33., -3., 39.],
@@ -137,7 +143,7 @@ class GmfCsv():
                             time_duration=None,
                             description=descr,
                             bibliography=None,
-                            events=[event])
+                            events=events)
         return eventset
 
 
@@ -148,13 +154,18 @@ def dumper(obj):
         return obj.__dict__
 
 
+def read_event_set(site_file, gmf_file):
+    """
+    Read an EventSet from site and GMF CSV files
+    """
+    sites = SitesCsv.from_csv_file(site_file)
+    return GmfCsv.from_csv_file(gmf_file, sites)
+
+
 def main():
-
-    fname = './../../scenarios/Earthquakes/20180117/sitemesh-_17001.csv'
-    sites = SitesCsv.from_csv_file(fname)
-
-    fname = './../../scenarios/Earthquakes/20180117/gmf-data_17001.csv'
-    es = GmfCsv.from_csv_file(fname, sites)
+    site_file = './../../scenarios/Earthquakes/20180117/sitemesh-_17001.csv'
+    gmf_file = './../../scenarios/Earthquakes/20180117/gmf-data_17001.csv'
+    es = read_event_set(site_file, gmf_file)
 
     with open('sample.json', 'w') as fout:
         json.dump(es, fout, default=dumper, indent=2)
