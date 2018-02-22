@@ -181,7 +181,7 @@ def _import_footprint_data(cursor, fpid, data):
 
 
 def _import_footprints(cursor, fsid, footprints):
-    verbose_message("Importing {0} footprints for fsid {0}\n" .format(
+    verbose_message("Importing {0} footprints for fsid {1}\n" .format(
         len(footprints), fsid))
     for fp in footprints:
         fpid = _import_footprint(cursor, fsid, fp)
@@ -189,7 +189,7 @@ def _import_footprints(cursor, fsid, footprints):
 
 
 def _import_footprint_sets(cursor, event_id, footprint_sets):
-    verbose_message("Importing {0} footprint_sets for event {0}\n" .format(
+    verbose_message("Importing {0} footprint_sets for event {1}\n" .format(
         len(footprint_sets), event_id))
     for fs in footprint_sets:
         fsid = _import_footprint_set(cursor, event_id, fs)
@@ -197,7 +197,7 @@ def _import_footprint_sets(cursor, event_id, footprint_sets):
 
 
 def _import_events(cursor, event_set_id, events):
-    verbose_message("Importing {0} events for event_set {0}\n" .format(
+    verbose_message("Importing {0} events for event_set {1}\n" .format(
         len(events), event_set_id))
     for event in events:
         verbose_message("Importing event {0}\n" .format(event.eid))
@@ -221,14 +221,20 @@ def import_event_set(es):
 
 
 def main():
-    site_file = './../../scenarios/Earthquakes/20180117/sitemesh-_17001.csv'
-    gmf_file = './../../scenarios/Earthquakes/20180117/gmf-data_17001.csv'
-    # site_file = './../../scenarios/Earthquakes/20180117/sites-ph.csv'
-    # gmf_file = './../../scenarios/Earthquakes/20180117/gmf-ph.csv'
+    if len(sys.argv) != 3:
+        sys.stderr.write('Usage {0} <site file> <gmf file>\n'.format(
+            sys.argv[0]))
+        exit(1)
+
+    site_file = sys.argv[1]
+    gmf_file = sys.argv[2]
+
     verbose_message("Reading CSV files {0} and {1}\n".format(
         site_file, gmf_file))
+
     es = read_event_set(site_file, gmf_file)
     imported_id = import_event_set(es)
+
     sys.stderr.write("Imported scenario DB id = {0}\n".format(imported_id))
 
 if __name__ == "__main__":
