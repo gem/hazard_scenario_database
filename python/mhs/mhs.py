@@ -22,8 +22,10 @@
 #
 # TODO check lists of valid values, ensure they match doc and SQL schema
 #
-PERIL_TYPES = ['earthquake', 'flood', 'landslide', 'storm_surge', 'tsunami',
-               'volcano']
+HAZARD_TYPES = [
+    'earthquake', 'flood', 'landslide', 'storm_surge', 'tsunami',
+    'volcano'
+]
 
 PROCESS_TYPE = {'earthquake': ['ground shaking', 'primary_surface_rupture',
                                'secondary_surface_rupture', 'liquefaction'],
@@ -78,7 +80,7 @@ class Event():
     def __init__(self, eid, event_set_id, calculation_method=None,
                  frequency=None, occurrence_prob=None,
                  occurrence_time_start=None, occurrence_time_end=None,
-                 occurrence_time_span=None, trigger_peril_type=None,
+                 occurrence_time_span=None, trigger_hazard_type=None,
                  trigger_process_type=None, trigger_event_id=None,
                  description=None, footprint_sets=None):
         """
@@ -92,7 +94,7 @@ class Event():
         self.occurrence_time_start = occurrence_time_start,
         self.occurrence_time_end = occurrence_time_end,
         self.occurrence_time_span = occurrence_time_span,
-        self.trigger_peril_type = trigger_peril_type,
+        self.trigger_hazard_type = trigger_hazard_type,
         self.trigger_process_type = trigger_process_type,
         self.trigger_event_id = trigger_event_id,
         self.description = description

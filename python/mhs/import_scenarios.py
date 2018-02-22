@@ -47,7 +47,7 @@ INSERT INTO hazard.footprint_data(
     footprint_id, the_geom, intensity
 )
 VALUES (
-    %s.
+    %s,
     ST_SetSRID(ST_Point(%s,%s),4326),
     %s
 )
@@ -93,14 +93,14 @@ def _import_footprint_set(cursor, event_id, fs):
 
 _EVENT_QUERY = """
 INSERT INTO hazard.event(
-    event_set_id, frequency,
+    event_set_id, calculation_method, frequency,
     occurrence_probability, occurrence_time_start,
     occurrence_time_end, occurrence_time_span,
     trigger_hazard_type, trigger_process_type, trigger_event_id,
     description
 )
 VALUES (
-    %s,%s,
+    %s,%s, %s,
     %s,%s,
     %s,%s,
     %s,%s,%s,
@@ -113,15 +113,16 @@ RETURNING id
 def _import_event(cursor, event_set_id, event):
     cursor.execute(_EVENT_QUERY, [
         event_set_id,
+        event.calculation_method,
         event.frequency,
-        event.occurrence_probability,
+        event.occurrence_prob,
         event.occurrence_time_start,
         event.occurrence_time_end,
         event.occurrence_time_span,
         event.trigger_hazard_type,
         event.trigger_process_type,
         event.trigger_event_id,
-        description
+        event.description
     ])
     return cursor.fetchone()[0]
 
@@ -134,7 +135,13 @@ INSERT INTO hazard.event_set(
     description,bibliography
 )
 VALUES (
-    ST_SetSRID(ST_MakeBox2D(%s,%s,%s,%s),4326),
+    ST_SetSRID(
+        ST_MakeBox2D(
+            ST_Point(%s,%s),
+            ST_Point(%s,%s)
+        ),
+        4326
+    ),
     %s,%s,%s,
     %s,%s,%s,
     %s,%s
@@ -151,12 +158,12 @@ def _import_event_set(cursor, es):
         es.geographic_area_bb[3], es.geographic_area_bb[2],
         es.geographic_area_name,
         es.creation_date,
-        hazard_type,
-        time_start,
-        time_end,
-        time_duration,
-        description,
-        bibliography
+        es.hazard_type,
+        es.time_start,
+        es.time_end,
+        es.time_duration,
+        es.description,
+        es.bibliography
     ])
     return cursor.fetchone()[0]
 
@@ -167,26 +174,33 @@ def _import_footprint_data(cursor, fpid, data):
         cursor.execute(_FOOTPRINT_DATA_QUERY, [
             fpid,
             # lon, lat
-            row[2], row[1],
+            float(row[1]), float(row[2]),
             # intensity
             row[0]
         ])
 
 
 def _import_footprints(cursor, fsid, footprints):
+    verbose_message("Importing {0} footprints for fsid {0}\n" .format(
+        len(footprints), fsid))
     for fp in footprints:
         fpid = _import_footprint(cursor, fsid, fp)
         _import_footprint_data(cursor, fpid, fp.data)
 
 
 def _import_footprint_sets(cursor, event_id, footprint_sets):
+    verbose_message("Importing {0} footprint_sets for event {0}\n" .format(
+        len(footprint_sets), event_id))
     for fs in footprint_sets:
-        fsid = _import_footprint_set(cursor, event_id, footprint_set)
+        fsid = _import_footprint_set(cursor, event_id, fs)
         _import_footprints(cursor, fsid, fs.footprints)
 
 
 def _import_events(cursor, event_set_id, events):
+    verbose_message("Importing {0} events for event_set {0}\n" .format(
+        len(events), event_set_id))
     for event in events:
+        verbose_message("Importing event {0}\n" .format(event.eid))
         event_id = _import_event(cursor, event_set_id, event)
         _import_footprint_sets(cursor, event_id, event.footprint_sets)
 
@@ -200,15 +214,17 @@ def import_event_set(es):
     with connections['hazard_contrib'].cursor() as cursor:
         # TODO investigate commit/rollback
         event_set_id = _import_event_set(cursor, es)
-        # _import_contribution(cursor, ex, model_id)
-        verbose_message('Inserted event_set, id={0}\n'.format(model_id))
+        # _import_contribution(cursor, ex, event_set_id)
+        verbose_message('Inserted event_set, id={0}\n'.format(event_set_id))
         _import_events(cursor, event_set_id, es.events)
-        return model_id
+        return event_set_id
 
 
 def main():
     site_file = './../../scenarios/Earthquakes/20180117/sitemesh-_17001.csv'
     gmf_file = './../../scenarios/Earthquakes/20180117/gmf-data_17001.csv'
+    # site_file = './../../scenarios/Earthquakes/20180117/sites-ph.csv'
+    # gmf_file = './../../scenarios/Earthquakes/20180117/gmf-ph.csv'
     verbose_message("Reading CSV files {0} and {1}\n".format(
         site_file, gmf_file))
     es = read_event_set(site_file, gmf_file)

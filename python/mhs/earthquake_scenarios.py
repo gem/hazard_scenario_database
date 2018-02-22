@@ -123,7 +123,7 @@ class GmfCsv():
                           occurrence_time_start=None,
                           occurrence_time_end=None,
                           occurrence_time_span=None,
-                          trigger_peril_type=None,
+                          trigger_hazard_type=None,
                           trigger_process_type=None,
                           trigger_event_id=None,
                           description='Test footprints',
