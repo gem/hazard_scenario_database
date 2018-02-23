@@ -79,7 +79,8 @@ ALTER TABLE event_set OWNER TO hazardcontrib;
 --
 CREATE TABLE event (
 	id	SERIAL	PRIMARY KEY,
-	event_set_id			INTEGER REFERENCES event_set(id),
+	event_set_id			INTEGER REFERENCES event_set(id) 
+                                ON DELETE CASCADE,
 
     -- Consider using a lookup or enumerated type
     -- Valid methods are:
@@ -89,8 +90,8 @@ CREATE TABLE event (
 	calculation_method		VARCHAR NOT NULL, 
 
 	-- TODO Check this type both for dimension and float/double
-	frequency				DOUBLE PRECISION ARRAY,
-	occurrence_probability	DOUBLE PRECISION ARRAY,
+	frequency				DOUBLE PRECISION, -- TODO check ARRAY,
+	occurrence_probability	DOUBLE PRECISION, -- TODO check ARRAY,
 	occurrence_time_start	TIMESTAMP,
 	occurrence_time_end		TIMESTAMP,
 	occurrence_time_span	INTERVAL,
@@ -111,7 +112,8 @@ ALTER TABLE event OWNER TO hazardcontrib;
 --
 CREATE TABLE footprint_set (
 	id						SERIAL PRIMARY KEY,
-	event_id				INTEGER NOT NULL REFERENCES event(id),
+	event_id				INTEGER NOT NULL REFERENCES event(id)
+                                ON DELETE CASCADE,
 
     -- TODO Consider use of a lookup table or enumerated type
     -- Valid process types
@@ -160,7 +162,8 @@ ALTER TABLE footprint_set OWNER TO hazardcontrib;
 CREATE TABLE footprint (
 	id						SERIAL PRIMARY KEY,
 	footprint_set_id		INTEGER NOT NULL 
-                                REFERENCES footprint_set(id),
+                                REFERENCES footprint_set(id)
+                                ON DELETE CASCADE,
 
     -- TODO consider moving into columns in footprint_data
 	uncertainty_2nd_moment	DOUBLE PRECISION ARRAY,
@@ -179,7 +182,8 @@ ALTER TABLE footprint OWNER TO hazardcontrib;
 --
 CREATE TABLE footprint_data (
 	id					SERIAL PRIMARY KEY,
-	footprint_id		INTEGER NOT NULL REFERENCES footprint(id),
+	footprint_id		INTEGER NOT NULL REFERENCES footprint(id)
+                            ON DELETE CASCADE,
 	the_geom			GEOMETRY(Point, 4326) NOT NULL,
 
     -- NOTE that "value" is a reserved word in some SQL dialects

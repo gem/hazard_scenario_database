@@ -113,23 +113,23 @@ class GmfCsv():
             footprint_sets.append(fps)
             footprints = []
 
-            # TODO load meta-data from a file to replace hard
-            # coded values
-            event = Event(eid='e{:d}'.format(ii+1),
-                          event_set_id='es1',
-                          calculation_method='SIM',
-                          frequency=1./475.,
-                          occurrence_prob=None,
-                          occurrence_time_start=None,
-                          occurrence_time_end=None,
-                          occurrence_time_span=None,
-                          trigger_peril_type=None,
-                          trigger_process_type=None,
-                          trigger_event_id=None,
-                          description='Test footprints',
-                          footprint_sets=footprint_sets)
-            events.append(event)
-            footprint_sets = []
+        # TODO load meta-data from a file to replace hard
+        # coded values
+        event = Event(eid='e{:d}'.format(ii+1),
+                      event_set_id='es1',
+                      calculation_method='SIM',
+                      frequency=1./475.,
+                      occurrence_prob=None,
+                      occurrence_time_start=None,
+                      occurrence_time_end=None,
+                      occurrence_time_span=None,
+                      trigger_hazard_type=None,
+                      trigger_process_type=None,
+                      trigger_event_id=None,
+                      description='Test footprints',
+                      footprint_sets=footprint_sets)
+        events.append(event)
+        footprint_sets = []
 
         # TODO load meta-data from a file to replace hard coded values
         descr = 'Sample scenarios for Dodoma, Tanzania'

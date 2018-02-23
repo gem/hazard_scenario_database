@@ -1,0 +1,27 @@
+DATABASES = {
+    # default entry required by django but not used
+    'default': {
+    },
+    'hazard_reader': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hazard',
+        'USER': '<username for export here>',
+        'PASSWORD': '<password here>',
+        'HOST': '<hostname>',
+        'PORT': 5432,
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
+    },
+    'hazard_contrib': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hazard',
+        'USER': '<username for contributions here>',
+        'PASSWORD': '<password here>',
+        'HOST': '<hostname>',
+        'PORT': 5432,
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
+    }
+}
