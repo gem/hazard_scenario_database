@@ -33,7 +33,8 @@ PROCESS_TYPE = {'earthquake': ['ground shaking', 'primary_surface_rupture',
                 'landslide': ['fall', 'topple', 'slide', 'lateral_spread',
                               'flow', 'complex'],
                 'storm_surge': ['inundation'],
-                'volcano': ['ash_fall', 'airborne_ash', 'lahar']}
+                'volcano': ['ash_fall', 'airborne_ash', 'lahar', 
+                            'tephra_load']}
 
 
 class EventSet():

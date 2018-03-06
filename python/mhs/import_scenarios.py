@@ -42,7 +42,7 @@ def verbose_message(msg):
         sys.stderr.write(msg)
 
 
-_FOOTPRINT_DATA_QUERY = """
+_OLD_FOOTPRINT_DATA_QUERY = """
 INSERT INTO hazard.footprint_data(
     footprint_id, the_geom, intensity
 )
@@ -53,6 +53,23 @@ VALUES (
 )
 RETURNING id
 """
+
+_FOOTPRINT_DATA_QUERY = """
+INSERT INTO hazard.footprint_data(
+    footprint_id, the_geom, intensity
+)
+VALUES (
+    %s,
+    ST_Transform(
+        ST_SetSRID(
+            ST_Point(%s,%s),
+        932736),
+    4326),
+    %s
+)
+RETURNING id
+"""
+
 
 
 _FOOTPRINT_QUERY = """
