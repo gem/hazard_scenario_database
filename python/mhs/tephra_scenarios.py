@@ -69,7 +69,7 @@ def build_event(ed, tephra_dir, ii):
     footprints = []
     ev_dir = os.path.join(tephra_dir, ed)
     # TODO use 1, 1000 when ready
-    for i in range(1, 3):
+    for i in range(1, 1001):
         fpf = os.path.join(ev_dir, str(i), 'out_0001.out')
         out = TephraOut.from_out_file(fpf)
         fp = Footprint(fid=str(i),
