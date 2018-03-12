@@ -101,7 +101,7 @@ class GmfCsv():
                                   data=fp_data)
                 footprints.append(footp)
 
-            print(('EOL Creating FootprintSet fsid={} with {} ' +
+            print(('Creating FootprintSet fsid={} with {} ' +
                   'footprints for imt={}').format(
                     fsid, lab, len(footprints)))
 
