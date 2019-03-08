@@ -60,7 +60,7 @@ COMMENT ON TYPE hazard.calc_method_enum IS 'Hazard Calculation Methods';
 -- Enumerated type for hazard process type
 --
 CREATE TYPE hazard.process_type_enum AS ENUM (
-	'DRT' 					-- Drought
+	'DRT', 					-- Drought
 	'FWD',					-- Flood Water Depth
 	'LDF',					-- Landslide Debris Flow
 	'LRF',					-- Landslide Rock Fall
