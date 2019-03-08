@@ -10,21 +10,37 @@ COMMENT ON SCHEMA cf_common IS
 	'Common elements for all Challenge Fund Database Schemas';
 
 --
--- Enumerated type for supported hazards (aka perils)
+-- No longer need Enumerated type for supported hazards (aka perils)
 --
--- This will fail if the enum already exists.
 --
-CREATE TYPE cf_common.hazard_enum AS ENUM (
-    'Earthquake',
-    'Tsunami',
-    'Flood',
-    'Wind',
-    'Landslide',
-    'Storm Surge',
-    'Volcanic Ash',
-    'Drought',
-    'Multi-hazard'
+DROP TYPE IF EXISTS cf_common.hazard_enum;
+
+--
+-- List of valid hazard types with Think Hazard! codes
+-- See http://thinkhazard.org/
+--
+CREATE TABLE IF NOT EXISTS cf_common.hazard_type (
+	code	VARCHAR 		PRIMARY KEY,
+	name	VARCHAR			NOT NULL
 );
+COMMENT ON TABLE cf_common.hazard_type IS 'Valid Hazard types';
+
+DELETE FROM cf_common.hazard_type;
+COPY cf_common.hazard_type (code,name)
+	FROM STDIN
+	WITH (FORMAT csv);
+EQ,Earthquake
+TS,Tsunami
+VO,Volcanic
+CF,Coastal Flood
+FL,Flood
+LS,Landslide
+WI,Strong Wind
+ET,Extreme Temperature
+DR,Drought
+WF,Wildfire
+MH,Multi-Hazard
+\.
 
 --
 -- Supported licenses
@@ -41,8 +57,15 @@ COMMENT ON TABLE cf_common.license IS
 
 DELETE FROM cf_common.license;
 COPY cf_common.license (code,name,notes,url)
-	FROM '/tmp/licenses.csv'
-	WITH (FORMAT csv, header);
+	FROM STDIN
+	WITH (FORMAT csv);
+CC0,Creative Commons CCZero (CC0),Dedicate to the Public Domain (all rights waived),https://creativecommons.org/publicdomain/zero/1.0/
+PDDL,Open Data Commons Public Domain Dedication and Licence (PDDL),Dedicate to the Public Domain (all rights waived),https://opendatacommons.org/licenses/pddl/index.html
+CC-BY-4.0,Creative Commons Attribution 4.0 (CC-BY-4.0),,https://creativecommons.org/licenses/by/4.0/
+ODC-BY,Open Data Commons Attribution License(ODC-BY),Attribution for data(bases),https://opendatacommons.org/licenses/by/summary/
+CC-BY-SA-4.0,Creative Commons Attribution Share-Alike 4.0 (CC-BY-SA-4.0),,http://creativecommons.org/licenses/by-sa/4.0/
+ODbL,Open Data Commons Open Database License (ODbL),Attribution-ShareAlike for data(bases),https://opendatacommons.org/licenses/odbl/summary/
+\.
 
 COMMIT;
 
