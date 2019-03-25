@@ -108,7 +108,7 @@ class GmfCsv():
             fps = FootprintSet(
                 event_id='e{:d}'.format(ii+1),
                 fsid=fsid,
-                imt=lab, process_type='e-gm',
+                imt=lab, process_type='QGM',
                 footprints=footprints)
             footprint_sets.append(fps)
             footprints = []
@@ -126,18 +126,19 @@ class GmfCsv():
                       trigger_hazard_type=None,
                       trigger_process_type=None,
                       trigger_event_id=None,
-                      description='Test footprints',
+                      description='Tanzania PGA from GEM SSAHARA regional model',
                       footprint_sets=footprint_sets)
         events.append(event)
         footprint_sets = []
 
         # TODO load meta-data from a file to replace hard coded values
-        descr = 'Sample scenarios for Dodoma, Tanzania'
+        descr = 'Tanzania PGA Hazard Map'
         eventset = EventSet(esid='es1',
-                            geographic_area_bb=[-9., 33., -3., 39.],
-                            geographic_area_name='Dodoma, Tanzania',
-                            creation_date=date(2018, 1, 30).isoformat(),
-                            hazard_type='EQK',
+                            # geographic_area_bb=[-9., 33., -3., 39.],
+                            geographic_area_bb=[80, 30.5, 88.3, 26.25],
+                            geographic_area_name='Tanzania',
+                            creation_date=date(2018, 9, 11).isoformat(),
+                            hazard_type='EQ',
                             time_start=None,
                             time_end=None,
                             time_duration=None,
@@ -163,8 +164,8 @@ def read_event_set(site_file, gmf_file):
 
 
 def main():
-    site_file = './../../scenarios/Earthquakes/20180117/sitemesh-_17001.csv'
-    gmf_file = './../../scenarios/Earthquakes/20180117/gmf-data_17001.csv'
+    site_file = './../../scenarios/Earthquakes/tza-pga/sitemesh.csv'
+    gmf_file = './../../scenarios/Earthquakes/tza-pga/tza-pga-01.csv'
     es = read_event_set(site_file, gmf_file)
 
     with open('sample.json', 'w') as fout:
