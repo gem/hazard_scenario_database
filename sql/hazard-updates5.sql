@@ -31,5 +31,7 @@ DELETE FROM cf_common.process_type WHERE code='FES';
 DELETE FROM cf_common.process_type WHERE code='LRF';
 DELETE FROM cf_common.process_type WHERE code='LDF';
 
+INSERT INTO cf_common.hazard_type VALUES ('CS','Convective Storm');
+UPDATE cf_common.process_type SET hazard_code = 'CS' WHERE name ='Tornado';
 
 COMMIT
