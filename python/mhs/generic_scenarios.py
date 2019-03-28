@@ -168,11 +168,11 @@ class GmfCsv():
         return
 
     @classmethod
-    def _add_events(cls, eventset, events):
+    def _add_events(cls, es, events):
         ii = 0
         for e in events:
-            event = Event(eid='e{:d}'.format(ii+1),
-                          event_set_id='es1',
+            event = Event(eid='e_{:d}'.format(ii+1),
+                          event_set_id=es.esid,
                           calculation_method=e.get('calculation_method'),
                           frequency=e.get('frequency'),
                           occurrence_prob=e.get('occurence_prob'),
@@ -186,12 +186,12 @@ class GmfCsv():
                           footprint_sets=[])
             fs = e.get('footprint_sets')
             if (fs is not None and len(fs)):
-                GmfCsv._add_fs(e, fs)
-            eventset.events.append(e)
+                GmfCsv._add_fs(event, fs)
+            es.events.append(event)
 
     @classmethod
     def from_md(cls, md, sites):
-        eventset = EventSet(esid='es1',
+        eventset = EventSet(esid='es_1',
                             geographic_area_bb=md.get('geographic_area_bb'),
                             geographic_area_name=md.get('geographic_area_name'),
                             creation_date=md.get('creation_date'),
@@ -237,7 +237,7 @@ def main():
     with open(md_file, 'r') as fin:
         md = json.load(fin)
 
-    es = GmfCsv.from_md(md, SitesCsv.empty())
+    es = GmfCsv.from_md(md, None)
 
     with open('md_out.json', 'w') as fout:
         json.dump(es, fout, default=dumper, indent=2)
