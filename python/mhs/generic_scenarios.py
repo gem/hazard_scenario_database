@@ -164,7 +164,18 @@ class GmfCsv():
         return eventset
 
     @classmethod
-    def _add_fs(cls, event, footprint_set):
+    def _add_fs(cls, event, footprint_sets):
+        jj = 0
+        for fs in footprint_sets:
+            fsid = 'fs_{}.{:d}'.format(event.eid, jj)
+            fps = FootprintSet(
+                event_id=event.eid,
+                fsid=fsid,
+                imt=fs.get('imt'),
+                process_type=fs.get('process_type'),
+                footprints=[])
+            jj = jj + 1
+            event.footprint_sets.append(fps)
         return
 
     @classmethod
@@ -188,6 +199,7 @@ class GmfCsv():
             if (fs is not None and len(fs)):
                 GmfCsv._add_fs(event, fs)
             es.events.append(event)
+            ii = ii + 1
 
     @classmethod
     def from_md(cls, md, sites):
