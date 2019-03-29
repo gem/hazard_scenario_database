@@ -8,11 +8,11 @@
   "events": [
     {
       "calculation_method": "SIM",
-      "description": "MDG TC Windfield 10yr event sustained wind (m/s)", 
+      "description": "MDG TC Windfield 10yr event sustained wind (kph)", 
       "frequency": 0.1,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (m/s) 10yr",
+          "imt": "1-min sustained wind (kph) 10yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -22,7 +22,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (m/s) 10yr",
+          "imt": "10-min sustained wind (kph) 10yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -32,7 +32,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (m/s) 10yr",
+          "imt": "3-sec sustained wind (kph) 10yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -45,11 +45,11 @@
     },
     {
       "calculation_method": "SIM",
-      "description": "MDG TC Windfield 25yr event sustained wind (m/s)", 
+      "description": "MDG TC Windfield 25yr event sustained wind (kph)", 
       "frequency": 0.04,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (m/s) 25yr",
+          "imt": "1-min sustained wind (kph) 25yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -59,7 +59,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (m/s) 25yr",
+          "imt": "10-min sustained wind (kph) 25yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -69,7 +69,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (m/s) 25yr",
+          "imt": "3-sec sustained wind (kph) 25yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -82,11 +82,11 @@
     },
     {
       "calculation_method": "SIM",
-      "description": "MDG TC Windfield 50yr event sustained wind (m/s)", 
+      "description": "MDG TC Windfield 50yr event sustained wind (kph)", 
       "frequency": 0.02,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (m/s) 50yr",
+          "imt": "1-min sustained wind (kph) 50yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -96,7 +96,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (m/s) 50yr",
+          "imt": "10-min sustained wind (kph) 50yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -106,7 +106,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (m/s) 50yr",
+          "imt": "3-sec sustained wind (kph) 50yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -119,11 +119,11 @@
     },
     {
       "calculation_method": "SIM",
-      "description": "MDG TC Windfield 100yr event sustained wind (m/s)", 
+      "description": "MDG TC Windfield 100yr event sustained wind (kph)", 
       "frequency": 0.01,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (m/s) 100yr",
+          "imt": "1-min sustained wind (kph) 100yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -133,7 +133,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (m/s) 100yr",
+          "imt": "10-min sustained wind (kph) 100yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -143,7 +143,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (m/s) 100yr",
+          "imt": "3-sec sustained wind (kph) 100yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -156,11 +156,11 @@
     },
     {
       "calculation_method": "SIM",
-      "description": "MDG TC Windfield 250yr event sustained wind (m/s)", 
+      "description": "MDG TC Windfield 250yr event sustained wind (kph)", 
       "frequency": 0.004,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (m/s) 250yr",
+          "imt": "1-min sustained wind (kph) 250yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -170,7 +170,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (m/s) 250yr",
+          "imt": "10-min sustained wind (kph) 250yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -180,7 +180,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (m/s) 250yr",
+          "imt": "3-sec sustained wind (kph) 250yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -193,11 +193,11 @@
     },
     {
       "calculation_method": "SIM",
-      "description": "MDG TC Windfield 500yr event sustained wind (m/s)", 
+      "description": "MDG TC Windfield 500yr event sustained wind (kph)", 
       "frequency": 0.002,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (m/s) 500yr",
+          "imt": "1-min sustained wind (kph) 500yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -207,7 +207,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (m/s) 500yr",
+          "imt": "10-min sustained wind (kph) 500yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -217,7 +217,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (m/s) 500yr",
+          "imt": "3-sec sustained wind (kph) 500yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -230,11 +230,11 @@
     },
     {
       "calculation_method": "SIM",
-      "description": "MDG TC Windfield 1000yr event sustained wind (m/s)", 
+      "description": "MDG TC Windfield 1000yr event sustained wind (kph)", 
       "frequency": 0.0001,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (m/s) 1000yr",
+          "imt": "1-min sustained wind (kph) 1000yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -244,7 +244,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (m/s) 1000yr",
+          "imt": "10-min sustained wind (kph) 1000yr",
           "process_type": "TCY",
           "footprints": [
             {
@@ -254,7 +254,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (m/s) 1000yr",
+          "imt": "3-sec sustained wind (kph) 1000yr",
           "process_type": "TCY",
           "footprints": [
             {
