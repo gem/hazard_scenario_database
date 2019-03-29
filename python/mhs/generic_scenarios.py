@@ -19,13 +19,14 @@
 # If not, see <https://www.gnu.org/licenses/agpl.html>.
 #
 import re
-import numpy as np
 import json
 import sys
 
-
 from datetime import date
 from mhs import Footprint, FootprintSet, Event, EventSet
+
+from import_scenarios import import_event_set
+
 
 VERBOSE = True
 
@@ -38,130 +39,22 @@ def verbose_message(msg):
         sys.stderr.write(msg)
 
 
-class SitesCsv():
-
-    def __init__(self,  idxs=None, coords=None,):
-        self.coords = coords
-        self.idxs = idxs
-
-    @classmethod
-    def from_csv_file(cls, csv_fname):
-        """
-        :param csv_fname:
-        """
-        coords = []
-        idxs = []
-        for i, line in enumerate(open(csv_fname)):
-            if i > 0:
-                aa = re.split('\,', line)
-                coords.append([float(aa[1]), float(aa[2])])
-                idxs.append(int(aa[0]))
-        print('The file contains {:d} sites'.format(len(idxs)))
-        return cls(np.array(idxs), np.array(coords))
-
-    @classmethod
-    def empty(cls):
-        return cls()
-
-
-class GmfCsv():
+class JSONEventSet():
     """
-    :param list gmfs:
-        A collection of np.arrays
+    Read meta-data for EventSets from JSON
     """
     def __init__():
-        # MN ??
-        # gmfs = None
         pass
 
     @classmethod
-    def from_csv_file(cls, csv_fname, sites):
-        """
-        """
-        #
-        # loading data from the csv file
-        data = []
-        for i, line in enumerate(open(csv_fname)):
-            aa = re.split('\,', line)
-            if i == 0:
-                labels = aa
-            else:
-                data.append([d for d in aa])
-        data = np.array(data)
-        #
-        # get the IDs of the gmfs
-        gmfids = set(list(data[:, 2]))
-        print('The file contains {:d} GMFs'.format(len(gmfids)))
-        #
-        # storing data for the various IMTs
-        gmfs = {}
-        footprint_sets = []
-        events = []
-        for ii, ia in enumerate(range(3, len(labels))):
-            # if ii > 0:
-            #     continue
-            lab = re.sub('^gmv_', '', labels[ia]).strip()
-            gmfs[lab] = []
-            print(lab)
-            footprints = []
-            fsid = 'fs{:d}.{:d}'.format(ii+1, len(footprint_sets)+1)
-
-            for igm in gmfids:
-                iii = np.nonzero(data[:, 2].astype(int) == int(igm))
-                tsit = np.array(data[iii, ia]).T
-                tdat = np.squeeze(sites.coords[data[iii, 1].astype(int), :])
-                fp_data = np.hstack((tsit, tdat))
-
-                footp = Footprint(fid=igm,
-                                  fsid=fsid,
-                                  data=fp_data)
-                footprints.append(footp)
-
-            print(('Creating FootprintSet fsid={} with {} ' +
-                  'footprints for imt={}').format(
-                    fsid, lab, len(footprints)))
-
-            fps = FootprintSet(
-                event_id='e{:d}'.format(ii+1),
-                fsid=fsid,
-                imt=lab, process_type='QGM',
-                footprints=footprints)
-            footprint_sets.append(fps)
-            footprints = []
-
-        # TODO load meta-data from a file to replace hard
-        # coded values
-        event = Event(eid='e{:d}'.format(ii+1),
-                      event_set_id='es1',
-                      calculation_method='SIM',
-                      frequency=1./475.,
-                      occurrence_prob=None,
-                      occurrence_time_start=None,
-                      occurrence_time_end=None,
-                      occurrence_time_span=None,
-                      trigger_hazard_type=None,
-                      trigger_process_type=None,
-                      trigger_event_id=None,
-                      description='TODO fix me',
-                      footprint_sets=footprint_sets)
-        events.append(event)
-        footprint_sets = []
-
-        # TODO load meta-data from a file to replace hard coded values
-        descr = 'Tanzania PGA Hazard Map'
-        eventset = EventSet(esid='es1',
-                            # geographic_area_bb=[-9., 33., -3., 39.],
-                            geographic_area_bb=[80, 30.5, 88.3, 26.25],
-                            geographic_area_name='Tanzania',
-                            creation_date=date(2018, 9, 11).isoformat(),
-                            hazard_type='EQ',
-                            time_start=None,
-                            time_end=None,
-                            time_duration=None,
-                            description=descr,
-                            bibliography=None,
-                            events=events)
-        return eventset
+    def _add_footprints(cls, footprint_set, footprints):
+        i = 0
+        for fp_md in footprints:
+            fpid = 'fp_{}.{:d}'.format(footprint_set.fsid, i)
+            footprint = Footprint(
+                fpid, footprint_set.fsid, [], directives=fp_md)
+            footprint_set.footprints.append(footprint)
+            i = i + 1
 
     @classmethod
     def _add_fs(cls, event, footprint_sets):
@@ -174,9 +67,11 @@ class GmfCsv():
                 imt=fs.get('imt'),
                 process_type=fs.get('process_type'),
                 footprints=[])
-            jj = jj + 1
+            f = fs.get('footprints')
+            if(f is not None and len(f) > 0):
+                JSONEventSet._add_footprints(fps, f)
             event.footprint_sets.append(fps)
-        return
+            jj = jj + 1
 
     @classmethod
     def _add_events(cls, es, events):
@@ -196,13 +91,16 @@ class GmfCsv():
                           description=e.get('description'),
                           footprint_sets=[])
             fs = e.get('footprint_sets')
-            if (fs is not None and len(fs)):
-                GmfCsv._add_fs(event, fs)
+            if (fs is not None and len(fs) > 0):
+                JSONEventSet._add_fs(event, fs)
             es.events.append(event)
             ii = ii + 1
 
     @classmethod
-    def from_md(cls, md, sites):
+    def from_md(cls, md):
+        """
+        Read an EventSet (without footprint values) from meta-data files
+        """
         eventset = EventSet(esid='es_1',
                             geographic_area_bb=md.get('geographic_area_bb'),
                             geographic_area_name=md.get('geographic_area_name'),
@@ -216,7 +114,7 @@ class GmfCsv():
                             events=[])
         events = md.get('events')
         if(events is not None and len(events) > 0):
-            GmfCsv._add_events(eventset, events)
+            JSONEventSet._add_events(eventset, events)
         return eventset
 
 
@@ -225,13 +123,6 @@ def dumper(obj):
         return obj.as_dict()
     except:
         return obj.__dict__
-
-
-def read_event_set(md_file):
-    """
-    Read an EventSet (without footprint values) from meta-data files
-    """
-    return
 
 
 def main():
@@ -249,11 +140,17 @@ def main():
     with open(md_file, 'r') as fin:
         md = json.load(fin)
 
-    es = GmfCsv.from_md(md, None)
+    es = JSONEventSet.from_md(md)
 
     with open('md_out.json', 'w') as fout:
         json.dump(es, fout, default=dumper, indent=2)
 
+    from earthquake_scenarios import read_event_set
+
+    verbose_message("Importing event set")
+    imported_id = import_event_set(es)
+
+    sys.stderr.write("Imported scenario DB id = {0}\n".format(imported_id))
 
 if __name__ == "__main__":
     main()

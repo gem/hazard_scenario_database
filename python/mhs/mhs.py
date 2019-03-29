@@ -143,12 +143,14 @@ class Footprint():
 
     def __init__(self, fid, fsid, data,
                  data_uncertainty_2nd_moment=None,
-                 triggering_footprint_id=None):
+                 triggering_footprint_id=None,
+                 directives=None):
         self.fid = fid
         self.fsid = fsid
         self.data = data
         self.data_uncertainty_2nd_moment = data_uncertainty_2nd_moment
         self.triggering_footprint_id = triggering_footprint_id
+        self.directives = directives
 
     def as_dict(self):
         ret = self.__dict__

@@ -167,6 +167,18 @@ def _import_event_set(cursor, es):
     ])
     return cursor.fetchone()[0]
 
+_FP_DATA_INJECT_QUERY = """
+INSERT INTO hazard.footprint_data
+    (footprint_id,the_geom,intensity)
+    (SELECT %s AS footprint_id, %s)
+"""
+
+
+def _import_footprint_data_via_query(cursor, fpid, data_query, fp):
+    query = _FP_DATA_INJECT_QUERY % (fpid, data_query)
+    verbose_message("Query = {}".format(query))
+    cursor.execute(query)
+
 
 def _import_footprint_data(cursor, fpid, data):
     # TODO investigate use of cursor.copy_from() and/or batch insert
@@ -185,7 +197,11 @@ def _import_footprints(cursor, fsid, footprints):
         len(footprints), fsid))
     for fp in footprints:
         fpid = _import_footprint(cursor, fsid, fp)
-        _import_footprint_data(cursor, fpid, fp.data)
+        data_query = fp.directives.get('_cf1_fp_data_query')
+        if(data_query is None):
+            _import_footprint_data(cursor, fpid, fp.data)
+        else:
+            _import_footprint_data_via_query(cursor, fpid, data_query, fp)
 
 
 def _import_footprint_sets(cursor, event_id, footprint_sets):
