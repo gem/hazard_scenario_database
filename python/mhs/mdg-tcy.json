@@ -1,0 +1,27 @@
+{
+  "description": "SWIO RAFI Madagascar Tropical Cyclone windfield", 
+  "creation_date": "2016-01-01", 
+  "bibliography": "SWIO RAFI Report https://www.gfdrr.org/en/publication/southwest-indian-ocean-risk-assessment-and-financing-initiative-summary-report-and-risk", 
+  "hazard_type": "WI", 
+  "geographic_area_bb": [ -1, -1, 1, 1 ], 
+  "geographic_area_name": "Madagascar", 
+  "events": [
+    {
+      "calculation_method": "SIM",
+      "description": "MDG TC Windfield 10% in 50yrs 1-min sustained wind (m/s)", 
+      "frequency": 0.002105263157894737,
+      "footprint_sets": [
+        {
+          "imt": "1-min sustained wind (m/s)", 
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1min_50yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        }        
+      ]
+    }
+  ]
+}
