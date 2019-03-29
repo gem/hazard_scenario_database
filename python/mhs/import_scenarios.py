@@ -221,6 +221,26 @@ def _import_events(cursor, event_set_id, events):
         _import_footprint_sets(cursor, event_id, event.footprint_sets)
 
 
+_BB_GEOM_QUERY = """
+WITH box AS (
+    SELECT ST_SetSRID(ST_Extent(the_geom),4326) AS geom
+      FROM hazard.event e
+      JOIN hazard.footprint_set fs ON fs.event_id=e.id
+      JOIN hazard.footprint fp ON fp.footprint_set_id=fs.id
+      JOIN hazard.footprint_data fpd ON fpd.footprint_id=fp.id
+     WHERE e.event_set_id=%s)
+UPDATE hazard.event_set SET the_geom = box.geom FROM box WHERE id=%s
+"""
+
+
+def _fix_bb_geometry(cursor, event_set_id):
+    """
+    Update the event_set bounding_box to the bounding box extent of all
+    footprint data point in the event_set
+    """
+    cursor.execute(_BB_GEOM_QUERY, [event_set_id, event_set_id])
+
+
 def import_event_set(es):
     """
     Import data from a scenario EventSet
@@ -230,9 +250,11 @@ def import_event_set(es):
     with connections['hazard_contrib'].cursor() as cursor:
         # TODO investigate commit/rollback
         event_set_id = _import_event_set(cursor, es)
-        # _import_contribution(cursor, ex, event_set_id)
+        # TODO _import_contribution(cursor, ex, event_set_id)
         verbose_message('Inserted event_set, id={0}\n'.format(event_set_id))
         _import_events(cursor, event_set_id, es.events)
+        verbose_message('Updateding bounding box\n')
+        _fix_bb_geometry(cursor, event_set_id)
         return event_set_id
 
 
