@@ -58,7 +58,7 @@ class EventSet():
     def __init__(self, esid, geographic_area_bb, geographic_area_name,
                  creation_date, hazard_type, time_start=None,
                  time_end=None, time_duration=None, description=None,
-                 bibliography=None, events=None):
+                 bibliography=None, is_prob=False, events=None):
         self.esid = esid
         self.geographic_area_bb = geographic_area_bb
         self.geographic_area_name = geographic_area_name
@@ -69,6 +69,7 @@ class EventSet():
         self.time_duration = time_duration
         self.description = description
         self.bibliography = bibliography
+        self.is_prob = is_prob
         self.events = events
 
 
