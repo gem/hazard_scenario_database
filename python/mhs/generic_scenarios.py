@@ -111,6 +111,7 @@ class JSONEventSet():
                             time_duration=md.get('time_duration'),
                             description=md.get('description'),
                             bibliography=md.get('bibliography'),
+                            is_prob=md.get('is_prob'),
                             events=[])
         events = md.get('events')
         if(events is not None and len(events) > 0):
