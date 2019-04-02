@@ -132,7 +132,7 @@ INSERT INTO hazard.event_set(
     the_geom,
     geographic_area_name, creation_date, hazard_type,
     time_start, time_end, time_duration,
-    description,bibliography
+    description,bibliography,is_prob
 )
 VALUES (
     ST_SetSRID(
@@ -144,7 +144,7 @@ VALUES (
     ),
     %s,%s,%s,
     %s,%s,%s,
-    %s,%s
+    %s,%s,%s
 )
 RETURNING id
 """
@@ -163,7 +163,8 @@ def _import_event_set(cursor, es):
         es.time_end,
         es.time_duration,
         es.description,
-        es.bibliography
+        es.bibliography,
+        es.is_prob
     ])
     return cursor.fetchone()[0]
 
