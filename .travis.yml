@@ -28,6 +28,6 @@ jobs:
     install:
      - pip -q install -U flake8
     script:
-     - cd sql; ./create-db.sh
+     - cd sql; POSTGRES_USER=postgres ./create-db.sh
      - psql -U postgres < schema.sql
      - psql -U postgres < common.sql
