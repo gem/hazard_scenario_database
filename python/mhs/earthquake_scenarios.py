@@ -41,7 +41,7 @@ class SitesCsv():
         idxs = []
         for i, line in enumerate(open(csv_fname)):
             if i > 0:
-                aa = re.split('\,', line)
+                aa = re.split(',', line)
                 coords.append([float(aa[1]), float(aa[2])])
                 idxs.append(int(aa[0]))
         print('The file contains {:d} sites'.format(len(idxs)))
@@ -66,7 +66,7 @@ class GmfCsv():
         # loading data from the csv file
         data = []
         for i, line in enumerate(open(csv_fname)):
-            aa = re.split('\,', line)
+            aa = re.split(',', line)
             if i == 0:
                 labels = aa
             else:
@@ -151,7 +151,7 @@ class GmfCsv():
 def dumper(obj):
     try:
         return obj.as_dict()
-    except:
+    except AttributeError:
         return obj.__dict__
 
 
