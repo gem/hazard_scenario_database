@@ -24,6 +24,7 @@ import sys
 
 from datetime import date
 from mhs import Footprint, FootprintSet, Event, EventSet
+from cf_common import Contribution
 
 from import_scenarios import import_event_set
 
@@ -113,6 +114,7 @@ class JSONEventSet():
                             bibliography=md.get('bibliography'),
                             is_prob=md.get('is_prob'),
                             events=[])
+        eventset.contribution = md.get('contribution')
         events = md.get('events')
         if(events is not None and len(events) > 0):
             JSONEventSet._add_events(eventset, events)
@@ -145,8 +147,6 @@ def main():
 
     with open('md_out.json', 'w') as fout:
         json.dump(es, fout, default=dumper, indent=2)
-
-    from earthquake_scenarios import read_event_set
 
     verbose_message("Importing event set")
     imported_id = import_event_set(es)

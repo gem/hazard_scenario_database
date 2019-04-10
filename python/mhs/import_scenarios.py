@@ -26,7 +26,8 @@ import sys
 from django.db import connections
 from django.conf import settings
 from mhs import Footprint, FootprintSet, Event, EventSet
-from earthquake_scenarios import read_event_set
+
+from cf_common import License, Contribution
 
 import db_settings
 settings.configure(DATABASES=db_settings.DATABASES)
@@ -221,6 +222,30 @@ def _import_events(cursor, event_set_id, events):
         event_id = _import_event(cursor, event_set_id, event)
         _import_footprint_sets(cursor, event_id, event.footprint_sets)
 
+_CONTRIBUTION_QUERY = """
+INSERT INTO hazard.contribution (
+    event_set_id, model_source, model_date,
+    notes, license_id, version, purpose)
+VALUES(
+    %s, %s, %s,
+    %s, %s, %s, %s
+)
+"""
+
+
+def _import_contribution(cursor, event_set_id, cntr):
+    if(cntr is None):
+        return
+    contribution = Contribution.from_md(cntr)
+    cursor.execute(_CONTRIBUTION_QUERY, [
+        event_set_id,
+        contribution.model_source,
+        contribution.model_date,
+        contribution.notes,
+        contribution.license_id,
+        contribution.version,
+        contribution.purpose
+    ])
 
 _BB_GEOM_QUERY = """
 WITH box AS (
@@ -249,12 +274,13 @@ def import_event_set(es):
     verbose_message("Model contains {0} events\n" .format(len(es.events)))
 
     with connections['hazard_contrib'].cursor() as cursor:
+        License.load_licenses(cursor)
         # TODO investigate commit/rollback
         event_set_id = _import_event_set(cursor, es)
-        # TODO _import_contribution(cursor, ex, event_set_id)
+        _import_contribution(cursor, event_set_id, es.contribution)
         verbose_message('Inserted event_set, id={0}\n'.format(event_set_id))
         _import_events(cursor, event_set_id, es.events)
-        verbose_message('Updateding bounding box\n')
+        verbose_message('Updateing bounding box\n')
         _fix_bb_geometry(cursor, event_set_id)
         return event_set_id
 
@@ -270,6 +296,8 @@ def main():
 
     verbose_message("Reading CSV files {0} and {1}\n".format(
         site_file, gmf_file))
+
+    from earthquake_scenarios import read_event_set
 
     es = read_event_set(site_file, gmf_file)
     imported_id = import_event_set(es)

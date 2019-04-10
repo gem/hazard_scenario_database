@@ -71,6 +71,7 @@ class EventSet():
         self.bibliography = bibliography
         self.is_prob = is_prob
         self.events = events
+        self.contribution = None
 
 
 class Event():
