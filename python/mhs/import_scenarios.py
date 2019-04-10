@@ -25,7 +25,6 @@ import sys
 
 from django.db import connections
 from django.conf import settings
-from mhs import Footprint, FootprintSet, Event, EventSet
 
 from cf_common import License, Contribution
 
@@ -91,6 +90,7 @@ def _import_footprint_set(cursor, event_id, fs):
         fs.data_uncertainty
     ])
     return cursor.fetchone()[0]
+
 
 _EVENT_QUERY = """
 INSERT INTO hazard.event(
@@ -169,6 +169,7 @@ def _import_event_set(cursor, es):
     ])
     return cursor.fetchone()[0]
 
+
 _FP_DATA_INJECT_QUERY = """
 INSERT INTO hazard.footprint_data
     (footprint_id,the_geom,intensity)
@@ -200,7 +201,7 @@ def _import_footprints(cursor, fsid, footprints):
     for fp in footprints:
         fpid = _import_footprint(cursor, fsid, fp)
         data_query = fp.directives.get('_cf1_fp_data_query')
-        if(data_query is None):
+        if data_query is None:
             _import_footprint_data(cursor, fpid, fp.data)
         else:
             _import_footprint_data_via_query(cursor, fpid, data_query, fp)
@@ -234,7 +235,7 @@ VALUES(
 
 
 def _import_contribution(cursor, event_set_id, cntr):
-    if(cntr is None):
+    if cntr is None:
         return
     contribution = Contribution.from_md(cntr)
     cursor.execute(_CONTRIBUTION_QUERY, [
@@ -280,7 +281,7 @@ def import_event_set(es):
         _import_contribution(cursor, event_set_id, es.contribution)
         verbose_message('Inserted event_set, id={0}\n'.format(event_set_id))
         _import_events(cursor, event_set_id, es.events)
-        verbose_message('Updateing bounding box\n')
+        verbose_message('Updating bounding box\n')
         _fix_bb_geometry(cursor, event_set_id)
         return event_set_id
 

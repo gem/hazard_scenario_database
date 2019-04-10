@@ -126,7 +126,7 @@ class GmfCsv():
                       trigger_hazard_type=None,
                       trigger_process_type=None,
                       trigger_event_id=None,
-                      description='Tanzania PGA from GEM SSAHARA regional model',
+                      description='Test desc',
                       footprint_sets=footprint_sets)
         events.append(event)
         footprint_sets = []
