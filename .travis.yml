@@ -1,11 +1,33 @@
 dist: xenial
 language: python
-python: 
-  - 2.7
-  - 3.6
 
-install:
-  - pip -q install -U flake8
-
-script:
-  - flake8 ./python/
+jobs:
+  include:
+  - stage: test
+    env: PYTHON2
+    python: 2.7
+    install:
+     - pip -q install -U flake8
+    script:
+     - flake8 ./python/
+  - stage: test
+    env: PYTHON3
+    python: 3.6
+    install:
+     - pip -q install -U flake8
+    script:
+     - flake8 ./python/
+  - stage: test
+    env: POSTGRES
+    addons:
+      postgresql: 9.5
+      apt:
+        packages:
+        - postgresql-9.5-postgis-2.3
+    
+    install:
+     - pip -q install -U flake8
+    script:
+     - cd sql; ./create-db.sh
+     - psql -U postgres < schema.sql
+     - psql -U postgres < common.sql
