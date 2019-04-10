@@ -1,0 +1,11 @@
+dist: xenial
+language: python
+python: 
+  - 2.7
+  - 3.6
+
+install:
+  - pip -q install -U flake8
+
+script:
+  - flake8 ./python/
