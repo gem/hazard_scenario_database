@@ -1,0 +1,207 @@
+{
+  "contribution": {                                                             
+    "model_date": "2016-01-01",                                                 
+    "model_source": "GFDRR SWIO RAFI Project",                                  
+    "license_code": "CC-BY-SA-4.0",                                             
+    "purpose": "National and administrative level risk assessment"              
+  },                                                                            
+
+  "description": "SWIO RAFI Seychelles Earthquake Ground Shaking", 
+  "creation_date": "2016-01-01", 
+  "bibliography": "SWIO RAFI Report https://www.gfdrr.org/en/publication/southwest-indian-ocean-risk-assessment-and-financing-initiative-summary-report-and-risk", 
+  "hazard_type": "EQ", 
+  "geographic_area_bb": [ -1, -1, 1, 1 ], 
+  "geographic_area_name": "Seychelles", 
+  "is_prob": "True",
+  "events": [
+    {
+      "calculation_method": "SIM",
+      "description": "SYC EQ Shaking 10yr event", 
+      "frequency": 0.1,
+      "footprint_sets": [
+        {
+          "imt": "PGA",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, PGA_10 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        },
+        {
+          "imt": "MMI",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, MMI_10 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "SYC EQ Shaking 25yr event", 
+      "frequency": 0.04,
+      "footprint_sets": [
+        {
+          "imt": "PGA",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, PGA_25 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        },
+        {
+          "imt": "MMI",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, MMI_25 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "SYC EQ Shaking 50yr event", 
+      "frequency": 0.02,
+      "footprint_sets": [
+        {
+          "imt": "PGA",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, PGA_50 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        },
+        {
+          "imt": "MMI",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, MMI_50 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "SYC EQ Shaking 100yr event", 
+      "frequency": 0.01,
+      "footprint_sets": [
+        {
+          "imt": "PGA",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, PGA_100 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        },
+        {
+          "imt": "MMI",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, MMI_100 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "SYC EQ Shaking 250yr event", 
+      "frequency": 0.004,
+      "footprint_sets": [
+        {
+          "imt": "PGA",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, PGA_250 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        },
+        {
+          "imt": "MMI",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, MMI_250 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "SYC EQ Shaking 500yr event", 
+      "frequency": 0.002,
+      "footprint_sets": [
+        {
+          "imt": "PGA",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, PGA_500 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        },
+        {
+          "imt": "MMI",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, MMI_500 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "SYC EQ Shaking 1000yr event", 
+      "frequency": 0.0001,
+      "footprint_sets": [
+        {
+          "imt": "PGA",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, PGA_1000 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        },
+        {
+          "imt": "MMI",
+          "process_type": "QGM",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, MMI_1000 AS intensity FROM paul.eq_qgm_syc"
+            }
+          ] 
+        }
+      ]
+    }   
+  ]
+}

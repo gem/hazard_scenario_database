@@ -1,0 +1,280 @@
+{
+  "contribution": {                                                             
+    "model_date": "2016-01-01",                                                 
+    "model_source": "GFDRR SWIO RAFI Project",                                  
+    "license_code": "CC-BY-SA-4.0",                                             
+    "purpose": "National and administrative level risk assessment"              
+  },                                                                            
+  "is_prob": "True",
+  "description": "SWIO RAFI Madagascar Tropical Cyclone windfield", 
+  "creation_date": "2016-01-01", 
+  "bibliography": "SWIO RAFI Report https://www.gfdrr.org/en/publication/southwest-indian-ocean-risk-assessment-and-financing-initiative-summary-report-and-risk", 
+  "hazard_type": "WI", 
+  "geographic_area_bb": [ -1, -1, 1, 1 ], 
+  "geographic_area_name": "Madagascar", 
+  "contribution": {
+    "license_code": "CC-BY-SA-4.0",
+    ""
+  },
+  "events": [
+    {
+      "calculation_method": "SIM",
+      "description": "MDG TC Windfield 10yr event sustained wind (kph)", 
+      "frequency": 0.1,
+      "footprint_sets": [
+        {
+          "imt": "1-min sustained wind (kph) 10yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1min_10yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "10-min sustained wind (kph) 10yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i10min_10yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "3-sec sustained wind (kph) 10yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i3sec_10yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MDG TC Windfield 25yr event sustained wind (kph)", 
+      "frequency": 0.04,
+      "footprint_sets": [
+        {
+          "imt": "1-min sustained wind (kph) 25yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1min_25yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "10-min sustained wind (kph) 25yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i10min_25yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "3-sec sustained wind (kph) 25yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i3sec_25yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MDG TC Windfield 50yr event sustained wind (kph)", 
+      "frequency": 0.02,
+      "footprint_sets": [
+        {
+          "imt": "1-min sustained wind (kph) 50yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1min_50yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "10-min sustained wind (kph) 50yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i10min_50yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "3-sec sustained wind (kph) 50yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i3sec_50yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MDG TC Windfield 100yr event sustained wind (kph)", 
+      "frequency": 0.01,
+      "footprint_sets": [
+        {
+          "imt": "1-min sustained wind (kph) 100yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1min_100yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "10-min sustained wind (kph) 100yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i10min_100yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "3-sec sustained wind (kph) 100yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i3sec_100yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MDG TC Windfield 250yr event sustained wind (kph)", 
+      "frequency": 0.004,
+      "footprint_sets": [
+        {
+          "imt": "1-min sustained wind (kph) 250yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1min_250yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "10-min sustained wind (kph) 250yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i10min_250yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "3-sec sustained wind (kph) 250yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i3sec_250yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MDG TC Windfield 500yr event sustained wind (kph)", 
+      "frequency": 0.002,
+      "footprint_sets": [
+        {
+          "imt": "1-min sustained wind (kph) 500yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1min_500yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "10-min sustained wind (kph) 500yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i10min_500yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "3-sec sustained wind (kph) 500yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i3sec_500yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MDG TC Windfield 1000yr event sustained wind (kph)", 
+      "frequency": 0.0001,
+      "footprint_sets": [
+        {
+          "imt": "1-min sustained wind (kph) 1000yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1min_1000yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "10-min sustained wind (kph) 1000yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i10min_1000yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        },
+        {
+          "imt": "3-sec sustained wind (kph) 1000yr",
+          "process_type": "TCY",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i3sec_1000yr AS intensity FROM paul.tc_wind"
+            }
+          ] 
+        }
+      ]
+    }   
+  ]
+}
