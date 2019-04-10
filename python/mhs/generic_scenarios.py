@@ -18,13 +18,10 @@
 # along with this program.
 # If not, see <https://www.gnu.org/licenses/agpl.html>.
 #
-import re
 import json
 import sys
 
-from datetime import date
 from mhs import Footprint, FootprintSet, Event, EventSet
-from cf_common import Contribution
 
 from import_scenarios import import_event_set
 
@@ -69,16 +66,15 @@ class JSONEventSet():
                 process_type=fs.get('process_type'),
                 footprints=[])
             f = fs.get('footprints')
-            if(f is not None and len(f) > 0):
+            if f is not None and len(f) > 0:
                 JSONEventSet._add_footprints(fps, f)
             event.footprint_sets.append(fps)
             jj = jj + 1
 
     @classmethod
     def _add_events(cls, es, events):
-        ii = 0
-        for e in events:
-            event = Event(eid='e_{:d}'.format(ii+1),
+        for i, e in enumerate(events):
+            event = Event(eid='e_{:d}'.format(i+1),
                           event_set_id=es.esid,
                           calculation_method=e.get('calculation_method'),
                           frequency=e.get('frequency'),
@@ -95,7 +91,6 @@ class JSONEventSet():
             if (fs is not None and len(fs) > 0):
                 JSONEventSet._add_fs(event, fs)
             es.events.append(event)
-            ii = ii + 1
 
     @classmethod
     def from_md(cls, md):
@@ -104,7 +99,8 @@ class JSONEventSet():
         """
         eventset = EventSet(esid='es_1',
                             geographic_area_bb=md.get('geographic_area_bb'),
-                            geographic_area_name=md.get('geographic_area_name'),
+                            geographic_area_name=md.get(
+                                'geographic_area_name'),
                             creation_date=md.get('creation_date'),
                             hazard_type=md.get('hazard_type'),
                             time_start=md.get('time_start'),
@@ -116,7 +112,7 @@ class JSONEventSet():
                             events=[])
         eventset.contribution = md.get('contribution')
         events = md.get('events')
-        if(events is not None and len(events) > 0):
+        if events is not None and len(events) > 0:
             JSONEventSet._add_events(eventset, events)
         return eventset
 
@@ -124,7 +120,7 @@ class JSONEventSet():
 def dumper(obj):
     try:
         return obj.as_dict()
-    except:
+    except AttributeError:
         return obj.__dict__
 
 

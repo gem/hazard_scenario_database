@@ -21,8 +21,6 @@
 
 import sys
 
-from django.db import connections
-
 
 class License():
     """
@@ -37,7 +35,6 @@ class License():
         cursor.execute(License._LICENSE_ID_QUERY)
         for row in cursor.fetchall():
             License._LICENSE_DICT[row[1]] = row[0]
-        print "Load licenses - loaded: {0}".format(License._LICENSE_DICT)
 
     """
     ID for license code or None if not present.
@@ -45,9 +42,6 @@ class License():
     """
     @classmethod
     def get_license_id(cls, code):
-        print "get lid {0} dict is {1}\n".format(
-            code,
-            License._LICENSE_DICT)
         return License._LICENSE_DICT.get(code)
 
 
@@ -80,7 +74,7 @@ class Contribution():
     @classmethod
     def from_md(cls, md):
         lc = md.get('license_code')
-        if(lc is not None):
+        if lc is not None:
             lid = License.get_license_id(lc)
             sys.stderr.write(
                 "Replaced license code {0} with id {1}\n".format(lc, lid))
