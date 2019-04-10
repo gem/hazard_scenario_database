@@ -223,6 +223,7 @@ def _import_events(cursor, event_set_id, events):
         event_id = _import_event(cursor, event_set_id, event)
         _import_footprint_sets(cursor, event_id, event.footprint_sets)
 
+
 _CONTRIBUTION_QUERY = """
 INSERT INTO hazard.contribution (
     event_set_id, model_source, model_date,
@@ -247,6 +248,7 @@ def _import_contribution(cursor, event_set_id, cntr):
         contribution.version,
         contribution.purpose
     ])
+
 
 _BB_GEOM_QUERY = """
 WITH box AS (
@@ -304,6 +306,7 @@ def main():
     imported_id = import_event_set(es)
 
     sys.stderr.write("Imported scenario DB id = {0}\n".format(imported_id))
+
 
 if __name__ == "__main__":
     main()

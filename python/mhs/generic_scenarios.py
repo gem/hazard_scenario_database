@@ -149,5 +149,6 @@ def main():
 
     sys.stderr.write("Imported scenario DB id = {0}\n".format(imported_id))
 
+
 if __name__ == "__main__":
     main()

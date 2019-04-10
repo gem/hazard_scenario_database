@@ -161,7 +161,7 @@ def read_tsunami_event_set(basedir):
 def dumper(obj):
     try:
         return obj.as_dict()
-    except:
+    except AttributeError:
         return obj.__dict__
 
 
