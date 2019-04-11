@@ -33,5 +33,5 @@ jobs:
      - psql -U postgres hazard < common.sql
      - for s in $(find . -name hazard-updates\*.sql | sort); do
            echo "Loading $s";
-           psql -U postgres hazard < $s;
+           psql -U postgres hazard < $s || exit 1;
        done
