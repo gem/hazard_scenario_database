@@ -25,8 +25,8 @@ jobs:
         packages:
         - postgresql-9.5-postgis-2.4
     
-    install:
-     - pip -q install -U flake8
+    before_script:
+     - echo "\set ON_ERROR_STOP on" > ~/.psqlrc
     script:
      - cd sql; POSTGRES_USER=postgres ./create-db.sh
      - psql -U postgres hazard < schema.sql
