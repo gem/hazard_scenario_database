@@ -555,7 +555,7 @@ GRANT USAGE ON SCHEMA hazard TO hazardviewer;
 REVOKE ALL ON TABLE hazard.contribution FROM PUBLIC;
 REVOKE ALL ON TABLE hazard.contribution FROM hazardcontrib;
 GRANT ALL ON TABLE hazard.contribution TO hazardcontrib;
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE hazard.contribution TO contributor;
+GRANT SELECT ON TABLE hazard.contribution TO hazardviewer;
 
 
 --
@@ -565,7 +565,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE hazard.contribution TO contributor;
 REVOKE ALL ON SEQUENCE hazard.contribution_id_seq FROM PUBLIC;
 REVOKE ALL ON SEQUENCE hazard.contribution_id_seq FROM hazardcontrib;
 GRANT ALL ON SEQUENCE hazard.contribution_id_seq TO hazardcontrib;
-GRANT USAGE ON SEQUENCE hazard.contribution_id_seq TO contributor;
+GRANT USAGE ON SEQUENCE hazard.contribution_id_seq TO hazardviewer;
 
 
 --
@@ -585,7 +585,7 @@ GRANT SELECT ON TABLE hazard.event TO hazardviewer;
 REVOKE ALL ON SEQUENCE hazard.event_id_seq FROM PUBLIC;
 REVOKE ALL ON SEQUENCE hazard.event_id_seq FROM hazardcontrib;
 GRANT ALL ON SEQUENCE hazard.event_id_seq TO hazardcontrib;
-GRANT USAGE ON SEQUENCE hazard.event_id_seq TO contributor;
+GRANT USAGE ON SEQUENCE hazard.event_id_seq TO hazardviewer;
 
 
 --
@@ -605,7 +605,7 @@ GRANT SELECT ON TABLE hazard.event_set TO hazardviewer;
 REVOKE ALL ON SEQUENCE hazard.event_set_id_seq FROM PUBLIC;
 REVOKE ALL ON SEQUENCE hazard.event_set_id_seq FROM hazardcontrib;
 GRANT ALL ON SEQUENCE hazard.event_set_id_seq TO hazardcontrib;
-GRANT USAGE ON SEQUENCE hazard.event_set_id_seq TO contributor;
+GRANT USAGE ON SEQUENCE hazard.event_set_id_seq TO hazardviewer;
 
 
 --
@@ -635,7 +635,7 @@ GRANT SELECT ON TABLE hazard.footprint_data TO hazardviewer;
 REVOKE ALL ON SEQUENCE hazard.footprint_data_id_seq FROM PUBLIC;
 REVOKE ALL ON SEQUENCE hazard.footprint_data_id_seq FROM hazardcontrib;
 GRANT ALL ON SEQUENCE hazard.footprint_data_id_seq TO hazardcontrib;
-GRANT USAGE ON SEQUENCE hazard.footprint_data_id_seq TO contributor;
+GRANT USAGE ON SEQUENCE hazard.footprint_data_id_seq TO hazardviewer;
 
 
 --
@@ -645,7 +645,7 @@ GRANT USAGE ON SEQUENCE hazard.footprint_data_id_seq TO contributor;
 REVOKE ALL ON SEQUENCE hazard.footprint_id_seq FROM PUBLIC;
 REVOKE ALL ON SEQUENCE hazard.footprint_id_seq FROM hazardcontrib;
 GRANT ALL ON SEQUENCE hazard.footprint_id_seq TO hazardcontrib;
-GRANT USAGE ON SEQUENCE hazard.footprint_id_seq TO contributor;
+GRANT USAGE ON SEQUENCE hazard.footprint_id_seq TO hazardviewer;
 
 
 --
@@ -665,7 +665,7 @@ GRANT SELECT ON TABLE hazard.footprint_set TO hazardviewer;
 REVOKE ALL ON SEQUENCE hazard.footprint_set_id_seq FROM PUBLIC;
 REVOKE ALL ON SEQUENCE hazard.footprint_set_id_seq FROM hazardcontrib;
 GRANT ALL ON SEQUENCE hazard.footprint_set_id_seq TO hazardcontrib;
-GRANT USAGE ON SEQUENCE hazard.footprint_set_id_seq TO contributor;
+GRANT USAGE ON SEQUENCE hazard.footprint_set_id_seq TO hazardviewer;
 
 
 --
