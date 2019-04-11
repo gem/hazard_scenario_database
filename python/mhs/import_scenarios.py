@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!
 # -*- coding: utf-8 -*-
 # vim: tabstop=4 shiftwidth=4 softtabstop=4
 #
@@ -286,27 +286,3 @@ def import_event_set(es):
         verbose_message('Updating bounding box\n')
         _fix_bb_geometry(cursor, event_set_id)
         return event_set_id
-
-
-def main():
-    if len(sys.argv) != 3:
-        sys.stderr.write('Usage {0} <site file> <gmf file>\n'.format(
-            sys.argv[0]))
-        exit(1)
-
-    site_file = sys.argv[1]
-    gmf_file = sys.argv[2]
-
-    verbose_message("Reading CSV files {0} and {1}\n".format(
-        site_file, gmf_file))
-
-    from earthquake_scenarios import read_event_set
-
-    es = read_event_set(site_file, gmf_file)
-    imported_id = import_event_set(es)
-
-    sys.stderr.write("Imported scenario DB id = {0}\n".format(imported_id))
-
-
-if __name__ == "__main__":
-    main()

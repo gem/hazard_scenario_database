@@ -19,11 +19,18 @@
 # If not, see <https://www.gnu.org/licenses/agpl.html>.
 #
 import re
-import numpy as np
+import sys
 import json
+import numpy as np
 
 from datetime import date
 from mhs import Footprint, FootprintSet, Event, EventSet
+from import_secnarios import import_event_set, verbose_message
+
+#
+# TODO move GMF/CSV handling code into a dedicated file
+# TODO replace hand-coded EQ model code with generic JSON based approach
+#
 
 
 class SitesCsv():
@@ -164,12 +171,23 @@ def read_event_set(site_file, gmf_file):
 
 
 def main():
-    site_file = './../../scenarios/Earthquakes/tza-pga/sitemesh.csv'
-    gmf_file = './../../scenarios/Earthquakes/tza-pga/tza-pga-01.csv'
-    es = read_event_set(site_file, gmf_file)
+    if len(sys.argv) != 3:
+        sys.stderr.write('Usage {0} <site file> <gmf file>\n'.format(
+            sys.argv[0]))
+        exit(1)
 
+    site_file = sys.argv[1]
+    gmf_file = sys.argv[2]
+
+    verbose_message("Reading CSV files {0} and {1}\n".format(
+        site_file, gmf_file))
+
+    es = read_event_set(site_file, gmf_file)
     with open('sample.json', 'w') as fout:
         json.dump(es, fout, default=dumper, indent=2)
+    imported_id = import_event_set(es)
+
+    sys.stderr.write("Imported scenario DB id = {0}\n".format(imported_id))
 
 
 if __name__ == "__main__":

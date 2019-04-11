@@ -52,7 +52,7 @@ COMMENT ON TYPE hazard.calc_method_enum IS 'Hazard Calculation Methods';
     --  Storm Surge:                                                            
     --              inundation                  SIN                             
     --                                                                          
-    --  Volcaninc Eruption:                                                     
+    --  Volcanic Eruption:
     --              ash fall                    VAF                             
 
 
@@ -70,7 +70,7 @@ CREATE TYPE hazard.process_type_enum AS ENUM (
 	'QLI',					-- Earthquake Liquefaction
 	'SIN',					-- Storm Surge Inundation
 	'TSI',					-- Tsunami 
-	'VAF'					-- Volcaninc Ash Fall
+	'VAF'					-- Volcanic Ash Fall
 );                                                                              
 COMMENT ON TYPE hazard.process_type_enum IS 'Hazard process type';
 
