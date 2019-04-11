@@ -19,11 +19,18 @@
 # If not, see <https://www.gnu.org/licenses/agpl.html>.
 #
 import re
-import numpy as np
+import sys
 import json
+import numpy as np
 
 from datetime import date
 from mhs import Footprint, FootprintSet, Event, EventSet
+from import_secnarios import import_event_set, verbose_message
+
+#
+# TODO move GMF/CSV handling code into a dedicated file
+# TODO replace hand-coded EQ model code with generic JSON based approach
+#
 
 
 class SitesCsv():
@@ -41,7 +48,7 @@ class SitesCsv():
         idxs = []
         for i, line in enumerate(open(csv_fname)):
             if i > 0:
-                aa = re.split('\,', line)
+                aa = re.split(',', line)
                 coords.append([float(aa[1]), float(aa[2])])
                 idxs.append(int(aa[0]))
         print('The file contains {:d} sites'.format(len(idxs)))
@@ -66,7 +73,7 @@ class GmfCsv():
         # loading data from the csv file
         data = []
         for i, line in enumerate(open(csv_fname)):
-            aa = re.split('\,', line)
+            aa = re.split(',', line)
             if i == 0:
                 labels = aa
             else:
@@ -108,7 +115,7 @@ class GmfCsv():
             fps = FootprintSet(
                 event_id='e{:d}'.format(ii+1),
                 fsid=fsid,
-                imt=lab, process_type='e-gm',
+                imt=lab, process_type='QGM',
                 footprints=footprints)
             footprint_sets.append(fps)
             footprints = []
@@ -126,18 +133,19 @@ class GmfCsv():
                       trigger_hazard_type=None,
                       trigger_process_type=None,
                       trigger_event_id=None,
-                      description='Test footprints',
+                      description='Test desc',
                       footprint_sets=footprint_sets)
         events.append(event)
         footprint_sets = []
 
         # TODO load meta-data from a file to replace hard coded values
-        descr = 'Sample scenarios for Dodoma, Tanzania'
+        descr = 'Tanzania PGA Hazard Map'
         eventset = EventSet(esid='es1',
-                            geographic_area_bb=[-9., 33., -3., 39.],
-                            geographic_area_name='Dodoma, Tanzania',
-                            creation_date=date(2018, 1, 30).isoformat(),
-                            hazard_type='EQK',
+                            # geographic_area_bb=[-9., 33., -3., 39.],
+                            geographic_area_bb=[80, 30.5, 88.3, 26.25],
+                            geographic_area_name='Tanzania',
+                            creation_date=date(2018, 9, 11).isoformat(),
+                            hazard_type='EQ',
                             time_start=None,
                             time_end=None,
                             time_duration=None,
@@ -150,7 +158,7 @@ class GmfCsv():
 def dumper(obj):
     try:
         return obj.as_dict()
-    except:
+    except AttributeError:
         return obj.__dict__
 
 
@@ -163,12 +171,23 @@ def read_event_set(site_file, gmf_file):
 
 
 def main():
-    site_file = './../../scenarios/Earthquakes/20180117/sitemesh-_17001.csv'
-    gmf_file = './../../scenarios/Earthquakes/20180117/gmf-data_17001.csv'
-    es = read_event_set(site_file, gmf_file)
+    if len(sys.argv) != 3:
+        sys.stderr.write('Usage {0} <site file> <gmf file>\n'.format(
+            sys.argv[0]))
+        exit(1)
 
+    site_file = sys.argv[1]
+    gmf_file = sys.argv[2]
+
+    verbose_message("Reading CSV files {0} and {1}\n".format(
+        site_file, gmf_file))
+
+    es = read_event_set(site_file, gmf_file)
     with open('sample.json', 'w') as fout:
         json.dump(es, fout, default=dumper, indent=2)
+    imported_id = import_event_set(es)
+
+    sys.stderr.write("Imported scenario DB id = {0}\n".format(imported_id))
 
 
 if __name__ == "__main__":

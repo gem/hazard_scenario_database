@@ -1,0 +1,33 @@
+dist: xenial
+language: python
+
+jobs:
+  include:
+  - stage: test
+    env: PYTHON2
+    python: 2.7
+    install:
+     - pip -q install -U flake8
+    script:
+     - flake8 ./python/
+  - stage: test
+    env: PYTHON3
+    python: 3.6
+    install:
+     - pip -q install -U flake8
+    script:
+     - flake8 ./python/
+  - stage: test
+    env: POSTGRES
+    addons:
+      postgresql: 9.5
+      apt:
+        packages:
+        - postgresql-9.5-postgis-2.4
+    
+    before_script:
+     - echo "\set ON_ERROR_STOP on" > ~/.psqlrc
+    script:
+     - cd sql; POSTGRES_USER=postgres ./create-db.sh
+     - psql -U postgres hazard < common.sql
+     - psql -U postgres hazard < hazard-schema.sql

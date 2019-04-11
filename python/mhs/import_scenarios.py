@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!
 # -*- coding: utf-8 -*-
 # vim: tabstop=4 shiftwidth=4 softtabstop=4
 #
@@ -25,8 +25,8 @@ import sys
 
 from django.db import connections
 from django.conf import settings
-from mhs import Footprint, FootprintSet, Event, EventSet
-from earthquake_scenarios import read_event_set
+
+from cf_common import License, Contribution
 
 import db_settings
 settings.configure(DATABASES=db_settings.DATABASES)
@@ -91,6 +91,7 @@ def _import_footprint_set(cursor, event_id, fs):
     ])
     return cursor.fetchone()[0]
 
+
 _EVENT_QUERY = """
 INSERT INTO hazard.event(
     event_set_id, calculation_method, frequency,
@@ -132,7 +133,7 @@ INSERT INTO hazard.event_set(
     the_geom,
     geographic_area_name, creation_date, hazard_type,
     time_start, time_end, time_duration,
-    description,bibliography
+    description,bibliography,is_prob
 )
 VALUES (
     ST_SetSRID(
@@ -144,7 +145,7 @@ VALUES (
     ),
     %s,%s,%s,
     %s,%s,%s,
-    %s,%s
+    %s,%s,%s
 )
 RETURNING id
 """
@@ -163,9 +164,23 @@ def _import_event_set(cursor, es):
         es.time_end,
         es.time_duration,
         es.description,
-        es.bibliography
+        es.bibliography,
+        es.is_prob
     ])
     return cursor.fetchone()[0]
+
+
+_FP_DATA_INJECT_QUERY = """
+INSERT INTO hazard.footprint_data
+    (footprint_id,the_geom,intensity)
+    (SELECT %s AS footprint_id, %s)
+"""
+
+
+def _import_footprint_data_via_query(cursor, fpid, data_query, fp):
+    query = _FP_DATA_INJECT_QUERY % (fpid, data_query)
+    verbose_message("Query = {}".format(query))
+    cursor.execute(query)
 
 
 def _import_footprint_data(cursor, fpid, data):
@@ -185,7 +200,11 @@ def _import_footprints(cursor, fsid, footprints):
         len(footprints), fsid))
     for fp in footprints:
         fpid = _import_footprint(cursor, fsid, fp)
-        _import_footprint_data(cursor, fpid, fp.data)
+        data_query = fp.directives.get('_cf1_fp_data_query')
+        if data_query is None:
+            _import_footprint_data(cursor, fpid, fp.data)
+        else:
+            _import_footprint_data_via_query(cursor, fpid, data_query, fp)
 
 
 def _import_footprint_sets(cursor, event_id, footprint_sets):
@@ -205,6 +224,52 @@ def _import_events(cursor, event_set_id, events):
         _import_footprint_sets(cursor, event_id, event.footprint_sets)
 
 
+_CONTRIBUTION_QUERY = """
+INSERT INTO hazard.contribution (
+    event_set_id, model_source, model_date,
+    notes, license_id, version, purpose)
+VALUES(
+    %s, %s, %s,
+    %s, %s, %s, %s
+)
+"""
+
+
+def _import_contribution(cursor, event_set_id, cntr):
+    if cntr is None:
+        return
+    contribution = Contribution.from_md(cntr)
+    cursor.execute(_CONTRIBUTION_QUERY, [
+        event_set_id,
+        contribution.model_source,
+        contribution.model_date,
+        contribution.notes,
+        contribution.license_id,
+        contribution.version,
+        contribution.purpose
+    ])
+
+
+_BB_GEOM_QUERY = """
+WITH box AS (
+    SELECT ST_SetSRID(ST_Extent(the_geom),4326) AS geom
+      FROM hazard.event e
+      JOIN hazard.footprint_set fs ON fs.event_id=e.id
+      JOIN hazard.footprint fp ON fp.footprint_set_id=fs.id
+      JOIN hazard.footprint_data fpd ON fpd.footprint_id=fp.id
+     WHERE e.event_set_id=%s)
+UPDATE hazard.event_set SET the_geom = box.geom FROM box WHERE id=%s
+"""
+
+
+def _fix_bb_geometry(cursor, event_set_id):
+    """
+    Update the event_set bounding_box to the bounding box extent of all
+    footprint data point in the event_set
+    """
+    cursor.execute(_BB_GEOM_QUERY, [event_set_id, event_set_id])
+
+
 def import_event_set(es):
     """
     Import data from a scenario EventSet
@@ -212,30 +277,12 @@ def import_event_set(es):
     verbose_message("Model contains {0} events\n" .format(len(es.events)))
 
     with connections['hazard_contrib'].cursor() as cursor:
+        License.load_licenses(cursor)
         # TODO investigate commit/rollback
         event_set_id = _import_event_set(cursor, es)
-        # _import_contribution(cursor, ex, event_set_id)
+        _import_contribution(cursor, event_set_id, es.contribution)
         verbose_message('Inserted event_set, id={0}\n'.format(event_set_id))
         _import_events(cursor, event_set_id, es.events)
+        verbose_message('Updating bounding box\n')
+        _fix_bb_geometry(cursor, event_set_id)
         return event_set_id
-
-
-def main():
-    if len(sys.argv) != 3:
-        sys.stderr.write('Usage {0} <site file> <gmf file>\n'.format(
-            sys.argv[0]))
-        exit(1)
-
-    site_file = sys.argv[1]
-    gmf_file = sys.argv[2]
-
-    verbose_message("Reading CSV files {0} and {1}\n".format(
-        site_file, gmf_file))
-
-    es = read_event_set(site_file, gmf_file)
-    imported_id = import_event_set(es)
-
-    sys.stderr.write("Imported scenario DB id = {0}\n".format(imported_id))
-
-if __name__ == "__main__":
-    main()

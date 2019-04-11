@@ -58,7 +58,7 @@ class EventSet():
     def __init__(self, esid, geographic_area_bb, geographic_area_name,
                  creation_date, hazard_type, time_start=None,
                  time_end=None, time_duration=None, description=None,
-                 bibliography=None, events=None):
+                 bibliography=None, is_prob=False, events=None):
         self.esid = esid
         self.geographic_area_bb = geographic_area_bb
         self.geographic_area_name = geographic_area_name
@@ -69,7 +69,9 @@ class EventSet():
         self.time_duration = time_duration
         self.description = description
         self.bibliography = bibliography
+        self.is_prob = is_prob
         self.events = events
+        self.contribution = None
 
 
 class Event():
@@ -143,12 +145,14 @@ class Footprint():
 
     def __init__(self, fid, fsid, data,
                  data_uncertainty_2nd_moment=None,
-                 triggering_footprint_id=None):
+                 triggering_footprint_id=None,
+                 directives=None):
         self.fid = fid
         self.fsid = fsid
         self.data = data
         self.data_uncertainty_2nd_moment = data_uncertainty_2nd_moment
         self.triggering_footprint_id = triggering_footprint_id
+        self.directives = directives
 
     def as_dict(self):
         ret = self.__dict__

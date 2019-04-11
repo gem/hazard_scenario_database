@@ -1,0 +1,121 @@
+{
+  "contribution": {                                                             
+    "model_date": "2016-01-01",                                                 
+    "model_source": "GFDRR SWIO RAFI Project",                                  
+    "license_code": "CC-BY-SA-4.0",                                             
+    "purpose": "National and administrative level risk assessment"              
+  },                                                                            
+
+  "description": "SWIO RAFI Mauritius Tropical Cyclone Storm Surge", 
+  "creation_date": "2016-01-01", 
+  "bibliography": "SWIO RAFI Report https://www.gfdrr.org/en/publication/southwest-indian-ocean-risk-assessment-and-financing-initiative-summary-report-and-risk", 
+  "hazard_type": "CF", 
+  "geographic_area_bb": [ -1, -1, 1, 1 ], 
+  "geographic_area_name": "Mauritius", 
+  "is_prob": "True",
+  "events": [
+    {
+      "calculation_method": "SIM",
+      "description": "MUS TC Storm Surge 25yr event, depth (m)", 
+      "frequency": 0.04,
+      "footprint_sets": [
+        {
+          "imt": "Depth m",
+          "process_type": "FSS",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i25_year AS intensity FROM paul.tc_mus_fss"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MUS TC Storm Surge 50yr event, depth (m)", 
+      "frequency": 0.02,
+      "footprint_sets": [
+        {
+          "imt": "Depth m",
+          "process_type": "FSS",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i50_year AS intensity FROM paul.tc_mus_fss"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MUS TC Storm Surge 100yr event, depth (m)", 
+      "frequency": 0.01,
+      "footprint_sets": [
+        {
+          "imt": "Depth m",
+          "process_type": "FSS",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i100_year AS intensity FROM paul.tc_mus_fss"
+            }
+          ] 
+        }
+      ]
+    },
+
+    {
+      "calculation_method": "SIM",
+      "description": "MUS TC Storm Surge 250yr event, depth (m)", 
+      "frequency": 0.004,
+      "footprint_sets": [
+        {
+          "imt": "Depth m",
+          "process_type": "FSS",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i250_year AS intensity FROM paul.tc_mus_fss"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MUS TC Storm Surge 500yr event, depth (m)", 
+      "frequency": 0.002,
+      "footprint_sets": [
+        {
+          "imt": "Depth m",
+          "process_type": "FSS",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i500_year AS intensity FROM paul.tc_mus_fss"
+            }
+          ] 
+        }
+      ]
+    },
+    {
+      "calculation_method": "SIM",
+      "description": "MUS TC Storm Surge 1000yr event, depth (m)", 
+      "frequency": 0.001,
+      "footprint_sets": [
+        {
+          "imt": "Depth m",
+          "process_type": "FSS",
+          "footprints": [
+            {
+              "_cf1_fp_data_query":
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1000_year AS intensity FROM paul.tc_mus_fss"
+            }
+          ] 
+        }
+      ]
+    }
+  ]
+}
