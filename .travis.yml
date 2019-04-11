@@ -29,5 +29,8 @@ jobs:
      - pip -q install -U flake8
     script:
      - cd sql; POSTGRES_USER=postgres ./create-db.sh
-     - psql -U postgres < schema.sql
-     - psql -U postgres < common.sql
+     - psql -U postgres hazard < schema.sql
+     - psql -U postgres hazard < common.sql
+     - for s in $(find . -name hazard-updates\*.sql | sort); do
+           psql -U postgres hazard < $s;
+       done
