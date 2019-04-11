@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo -u postgres psql -U postgres << _EOF_
+psql -U postgres << _EOF_
 CREATE DATABASE hazard;
 \connect hazard
 CREATE EXTENSION postgis;
