@@ -41,8 +41,6 @@ class JSONEventSet():
     """
     Read meta-data for EventSets from JSON
     """
-    def __init__():
-        pass
 
     @classmethod
     def _add_footprints(cls, footprint_set, footprints):
@@ -88,7 +86,7 @@ class JSONEventSet():
                           description=e.get('description'),
                           footprint_sets=[])
             fs = e.get('footprint_sets')
-            if (fs is not None and len(fs) > 0):
+            if fs is not None and len(fs) > 0:
                 JSONEventSet._add_fs(event, fs)
             es.events.append(event)
 
