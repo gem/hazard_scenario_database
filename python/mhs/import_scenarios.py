@@ -22,14 +22,10 @@
 Import a hazard scenario EventSet into the hazard scenario Database
 """
 import sys
-
-from django.db import connections
-from django.conf import settings
-
 from cf_common import License, Contribution
-
+from database import db_connections
 import db_settings
-settings.configure(DATABASES=db_settings.DATABASES)
+
 
 VERBOSE = True
 
@@ -275,6 +271,8 @@ def import_event_set(es):
     Import data from a scenario EventSet
     """
     verbose_message("Model contains {0} events\n" .format(len(es.events)))
+
+    connections = db_connections(db_settings.db_confs)
 
     with connections['hazard_contrib'].cursor() as cursor:
         License.load_licenses(cursor)
