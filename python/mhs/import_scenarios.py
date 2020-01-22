@@ -283,4 +283,5 @@ def import_event_set(es):
         _import_events(cursor, event_set_id, es.events)
         verbose_message('Updating bounding box\n')
         _fix_bb_geometry(cursor, event_set_id)
+        connections['hazard_contrib'].commit()
         return event_set_id
