@@ -22,14 +22,10 @@
 Import a hazard scenario EventSet into the hazard scenario Database
 """
 import sys
-
-from django.db import connections
-from django.conf import settings
-
 from cf_common import License, Contribution
-
+from database import db_connections
 import db_settings
-settings.configure(DATABASES=db_settings.DATABASES)
+
 
 VERBOSE = True
 
@@ -276,6 +272,8 @@ def import_event_set(es):
     """
     verbose_message("Model contains {0} events\n" .format(len(es.events)))
 
+    connections = db_connections(db_settings.db_confs)
+
     with connections['hazard_contrib'].cursor() as cursor:
         License.load_licenses(cursor)
         # TODO investigate commit/rollback
@@ -285,4 +283,5 @@ def import_event_set(es):
         _import_events(cursor, event_set_id, es.events)
         verbose_message('Updating bounding box\n')
         _fix_bb_geometry(cursor, event_set_id)
+        connections['hazard_contrib'].commit()
         return event_set_id
