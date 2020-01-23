@@ -1,0 +1,3 @@
+# Python requirements for scripts
+# located in the 'python' folder
+psycopg2
