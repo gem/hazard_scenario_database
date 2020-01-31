@@ -62,8 +62,7 @@ COMMENT ON TABLE cf_common.hazard_type IS 'Valid Process types by Hazard type';
 --
 
 CREATE TABLE cf_common.license (
-    id integer NOT NULL,
-    code character varying NOT NULL,
+    code character varying UNIQUE NOT NULL,
     name character varying NOT NULL,
     notes text,
     url character varying NOT NULL
@@ -78,28 +77,6 @@ ALTER TABLE cf_common.license OWNER TO hazardcontrib;
 
 COMMENT ON TABLE cf_common.license IS 'List of supported licenses';
 
-
---
--- Name: license_id_seq; Type: SEQUENCE; Schema: cf_common; Owner: hazardcontrib
---
-
-CREATE SEQUENCE cf_common.license_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE cf_common.license_id_seq OWNER TO hazardcontrib;
-
---
--- Name: license_id_seq; Type: SEQUENCE OWNED BY; Schema: cf_common; Owner: hazardcontrib
---
-
-ALTER SEQUENCE cf_common.license_id_seq OWNED BY cf_common.license.id;
-
-
 --
 -- Name: process_type; Type: TABLE; Schema: cf_common; Owner: hazardcontrib
 --
@@ -112,13 +89,6 @@ CREATE TABLE cf_common.process_type (
 
 
 ALTER TABLE cf_common.process_type OWNER TO hazardcontrib;
-
---
--- Name: id; Type: DEFAULT; Schema: cf_common; Owner: hazardcontrib
---
-
-ALTER TABLE ONLY cf_common.license ALTER COLUMN id SET DEFAULT nextval('cf_common.license_id_seq'::regclass);
-
 
 --
 -- Data for Name: hazard_type; Type: TABLE DATA; Schema: cf_common; Owner: hazardcontrib
@@ -144,21 +114,14 @@ MH	Multi-Hazard
 -- Data for Name: license; Type: TABLE DATA; Schema: cf_common; Owner: hazardcontrib
 --
 
-COPY cf_common.license (id, code, name, notes, url) FROM stdin;
-7	CC0	Creative Commons CCZero (CC0)	Dedicate to the Public Domain (all rights waived)	https://creativecommons.org/publicdomain/zero/1.0/
-8	PDDL	Open Data Commons Public Domain Dedication and Licence (PDDL)	Dedicate to the Public Domain (all rights waived)	https://opendatacommons.org/licenses/pddl/index.html
-9	CC-BY-4.0	Creative Commons Attribution 4.0 (CC-BY-4.0)	\N	https://creativecommons.org/licenses/by/4.0/
-10	ODC-BY	Open Data Commons Attribution License(ODC-BY)	Attribution for data(bases)	https://opendatacommons.org/licenses/by/summary/
-11	CC-BY-SA-4.0	Creative Commons Attribution Share-Alike 4.0 (CC-BY-SA-4.0)	\N	http://creativecommons.org/licenses/by-sa/4.0/
-12	ODbL	Open Data Commons Open Database License (ODbL)	Attribution-ShareAlike for data(bases)	https://opendatacommons.org/licenses/odbl/summary/
+COPY cf_common.license (code, name, notes, url) FROM stdin;
+CC0	Creative Commons CCZero (CC0)	Dedicate to the Public Domain (all rights waived)	https://creativecommons.org/publicdomain/zero/1.0/
+PDDL	Open Data Commons Public Domain Dedication and Licence (PDDL)	Dedicate to the Public Domain (all rights waived)	https://opendatacommons.org/licenses/pddl/index.html
+CC BY-4.0	Creative Commons Attribution 4.0 (CC-BY-4.0)	\N	https://creativecommons.org/licenses/by/4.0/
+ODC-By	Open Data Commons Attribution License(ODC-BY)	Attribution for data(bases)	https://opendatacommons.org/licenses/by/summary/
+CC BY-SA-4.0	Creative Commons Attribution Share-Alike 4.0 (CC-BY-SA-4.0)	\N	http://creativecommons.org/licenses/by-sa/4.0/
+ODbL	Open Data Commons Open Database License (ODbL)	Attribution-ShareAlike for data(bases)	https://opendatacommons.org/licenses/odbl/summary/
 \.
-
-
---
--- Name: license_id_seq; Type: SEQUENCE SET; Schema: cf_common; Owner: hazardcontrib
---
-
-SELECT pg_catalog.setval('cf_common.license_id_seq', 12, true);
 
 
 --
@@ -203,13 +166,6 @@ TOR	CS	Tornado
 ALTER TABLE ONLY cf_common.hazard_type
     ADD CONSTRAINT hazard_type_pkey PRIMARY KEY (code);
 
-
---
--- Name: license_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
---
-
-ALTER TABLE ONLY cf_common.license
-    ADD CONSTRAINT license_pkey PRIMARY KEY (id);
 
 
 --
