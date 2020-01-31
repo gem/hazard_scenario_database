@@ -21,7 +21,7 @@ UPDATE hazard.hazard.footprint_set SET imt='d_fpf:m'
 -- Update other IMT codes using table agreed with UCL & GFDRR
 
 UPDATE hazard.footprint_set SET imt='PGA:g' WHERE imt = 'PGA';
-UPDATE hazard.footprint_set SET imt='PGV:g' WHERE imt = 'PGV';
+UPDATE hazard.footprint_set SET imt='PGV:m/s' WHERE imt = 'PGV';
 UPDATE hazard.footprint_set SET imt='MMI:-' WHERE imt = 'MMI';
 UPDATE hazard.footprint_set SET imt='SA(3.0):g' WHERE imt = 'SA(3.0)';
 UPDATE hazard.footprint_set SET imt='SA(1.0):g' WHERE imt = 'SA(1.0)';
