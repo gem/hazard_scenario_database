@@ -2,7 +2,7 @@
   "contribution": {                                                             
     "model_date": "2016-01-01",                                                 
     "model_source": "GFDRR SWIO RAFI Project",                                  
-    "license_code": "CC-BY-SA-4.0",                                             
+    "license_code": "CC BY-SA 4.0",
     "purpose": "National and administrative level risk assessment"              
   },                                                                            
 
@@ -20,7 +20,7 @@
       "frequency": 0.1,
       "footprint_sets": [
         {
-          "imt": "PGA",
+          "imt": "PGA:g",
           "process_type": "QGM",
           "footprints": [
             {
@@ -30,7 +30,7 @@
           ] 
         },
         {
-          "imt": "MMI",
+          "imt": "MMI:-",
           "process_type": "QGM",
           "footprints": [
             {
@@ -47,7 +47,7 @@
       "frequency": 0.04,
       "footprint_sets": [
         {
-          "imt": "PGA",
+          "imt": "PGA:g",
           "process_type": "QGM",
           "footprints": [
             {
@@ -57,7 +57,7 @@
           ] 
         },
         {
-          "imt": "MMI",
+          "imt": "MMI:-",
           "process_type": "QGM",
           "footprints": [
             {
@@ -74,7 +74,7 @@
       "frequency": 0.02,
       "footprint_sets": [
         {
-          "imt": "PGA",
+          "imt": "PGA:g",
           "process_type": "QGM",
           "footprints": [
             {
@@ -84,7 +84,7 @@
           ] 
         },
         {
-          "imt": "MMI",
+          "imt": "MMI:-",
           "process_type": "QGM",
           "footprints": [
             {
@@ -101,7 +101,7 @@
       "frequency": 0.01,
       "footprint_sets": [
         {
-          "imt": "PGA",
+          "imt": "PGA:g",
           "process_type": "QGM",
           "footprints": [
             {
@@ -111,7 +111,7 @@
           ] 
         },
         {
-          "imt": "MMI",
+          "imt": "MMI:-",
           "process_type": "QGM",
           "footprints": [
             {
@@ -128,7 +128,7 @@
       "frequency": 0.004,
       "footprint_sets": [
         {
-          "imt": "PGA",
+          "imt": "PGA:g",
           "process_type": "QGM",
           "footprints": [
             {
@@ -138,7 +138,7 @@
           ] 
         },
         {
-          "imt": "MMI",
+          "imt": "MMI:-",
           "process_type": "QGM",
           "footprints": [
             {
@@ -155,7 +155,7 @@
       "frequency": 0.002,
       "footprint_sets": [
         {
-          "imt": "PGA",
+          "imt": "PGA:g",
           "process_type": "QGM",
           "footprints": [
             {
@@ -165,7 +165,7 @@
           ] 
         },
         {
-          "imt": "MMI",
+          "imt": "MMI:-",
           "process_type": "QGM",
           "footprints": [
             {
@@ -182,7 +182,7 @@
       "frequency": 0.0001,
       "footprint_sets": [
         {
-          "imt": "PGA",
+          "imt": "PGA:g",
           "process_type": "QGM",
           "footprints": [
             {
@@ -192,7 +192,7 @@
           ] 
         },
         {
-          "imt": "MMI",
+          "imt": "MMI:-",
           "process_type": "QGM",
           "footprints": [
             {

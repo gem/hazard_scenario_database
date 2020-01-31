@@ -2,7 +2,7 @@
   "contribution": {                                                             
     "model_date": "2016-01-01",                                                 
     "model_source": "GFDRR SWIO RAFI Project",                                  
-    "license_code": "CC-BY-SA-4.0",                                             
+    "license_code": "CC BY-SA 4.0",                                             
     "purpose": "National and administrative level risk assessment"              
   },                                                                            
 
@@ -20,12 +20,12 @@
       "frequency": 0.1,
       "footprint_sets": [
         {
-          "imt": "Depth mm",
+          "imt": "d_fpf:m",
           "process_type": "FPF",
           "footprints": [
             {
               "_cf1_fp_data_query":
-                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i10_year AS intensity FROM paul.tc_syc_fpf"
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i10_year / 1000 AS intensity FROM paul.tc_syc_fpf"
             }
           ] 
         }
@@ -37,12 +37,12 @@
       "frequency": 0.04,
       "footprint_sets": [
         {
-          "imt": "Depth mm",
+          "imt": "d_fpf:m",
           "process_type": "FPF",
           "footprints": [
             {
               "_cf1_fp_data_query":
-                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i25_year AS intensity FROM paul.tc_syc_fpf"
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i25_year / 1000 AS intensity FROM paul.tc_syc_fpf"
             }
           ] 
         }
@@ -54,12 +54,12 @@
       "frequency": 0.02,
       "footprint_sets": [
         {
-          "imt": "Depth mm",
+          "imt": "d_fpf:m",
           "process_type": "FPF",
           "footprints": [
             {
               "_cf1_fp_data_query":
-                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i50_year AS intensity FROM paul.tc_syc_fpf"
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i50_year / 1000 AS intensity FROM paul.tc_syc_fpf"
             }
           ] 
         }
@@ -71,12 +71,12 @@
       "frequency": 0.01,
       "footprint_sets": [
         {
-          "imt": "Depth mm",
+          "imt": "d_fpf:m",
           "process_type": "FPF",
           "footprints": [
             {
               "_cf1_fp_data_query":
-                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i100_year AS intensity FROM paul.tc_syc_fpf"
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i100_year / 1000 AS intensity FROM paul.tc_syc_fpf"
             }
           ] 
         }
@@ -89,12 +89,12 @@
       "frequency": 0.004,
       "footprint_sets": [
         {
-          "imt": "Depth mm",
+          "imt": "d_fpf:m",
           "process_type": "FPF",
           "footprints": [
             {
               "_cf1_fp_data_query":
-                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i250_year AS intensity FROM paul.tc_syc_fpf"
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i250_year / 1000 AS intensity FROM paul.tc_syc_fpf"
             }
           ] 
         }
@@ -106,12 +106,12 @@
       "frequency": 0.002,
       "footprint_sets": [
         {
-          "imt": "Depth mm",
+          "imt": "d_fpf:m",
           "process_type": "FPF",
           "footprints": [
             {
               "_cf1_fp_data_query":
-                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i500_year AS intensity FROM paul.tc_syc_fpf"
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i500_year / 1000 AS intensity FROM paul.tc_syc_fpf"
             }
           ] 
         }
@@ -123,12 +123,12 @@
       "frequency": 0.001,
       "footprint_sets": [
         {
-          "imt": "Depth mm",
+          "imt": "d_fpf:m",
           "process_type": "FPF",
           "footprints": [
             {
               "_cf1_fp_data_query":
-                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1000_year AS intensity FROM paul.tc_syc_fpf"
+                "ST_SetSRID(ST_Point(lon,lat), 4326) AS the_geom, i1000_year / 1000 AS intensity FROM paul.tc_syc_fpf"
             }
           ] 
         }
