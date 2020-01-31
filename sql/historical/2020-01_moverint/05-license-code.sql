@@ -20,4 +20,6 @@ UPDATE hazard.contribution c
 ALTER TABLE hazard.contribution ALTER COLUMN license_code SET NOT NULL;
 ALTER TABLE hazard.contribution DROP COLUMN license_id;
 
+ALTER TABLE cf_common.license DROP COLUMN id;
+
 COMMIT;
