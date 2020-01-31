@@ -55,7 +55,7 @@ COMMENT ON TABLE cf_common.hazard_type IS 'Valid Process types by Hazard type';
 
 
 --
--- Name: imt; Type: TABLE; Schema: cf_common; Owner: paul
+-- Name: imt; Type: TABLE; Schema: cf_common; Owner: hazardcontrib
 --
 
 CREATE TABLE cf_common.imt (
@@ -67,7 +67,7 @@ CREATE TABLE cf_common.imt (
 );
 
 
-ALTER TABLE cf_common.imt OWNER TO paul;
+ALTER TABLE cf_common.imt OWNER TO hazardcontrib;
 
 --
 -- Name: license; Type: TABLE; Schema: cf_common; Owner: hazardcontrib
@@ -124,7 +124,7 @@ MH	Multi-Hazard
 
 
 --
--- Data for Name: imt; Type: TABLE DATA; Schema: cf_common; Owner: paul
+-- Data for Name: imt; Type: TABLE DATA; Schema: cf_common; Owner: hazardcontrib
 --
 
 COPY cf_common.imt (process_code, hazard_code, im_code, description, units) FROM stdin;
@@ -247,7 +247,7 @@ ALTER TABLE ONLY cf_common.hazard_type
 
 
 --
--- Name: imt_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: paul
+-- Name: imt_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
 --
 
 ALTER TABLE ONLY cf_common.imt
@@ -279,7 +279,7 @@ ALTER TABLE ONLY cf_common.process_type
 
 
 --
--- Name: imt_process_code_fkey; Type: FK CONSTRAINT; Schema: cf_common; Owner: paul
+-- Name: imt_process_code_fkey; Type: FK CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
 --
 
 ALTER TABLE ONLY cf_common.imt
