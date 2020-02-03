@@ -13,8 +13,10 @@
   "geographic_area_bb": [ -1, -1, 1, 1 ], 
   "geographic_area_name": "Madagascar", 
   "contribution": {
+    "model_date": "2016-01-01",
+    "model_source": "GFDRR SWIO RAFI Project",
     "license_code": "CC BY-SA 4.0",
-    ""
+    "purpose": "National and administrative level risk assessment"
   },
   "events": [
     {
