@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.19
--- Dumped by pg_dump version 9.5.19
+-- Dumped from database version 11.6 (Debian 11.6-1.pgdg100+1)
+-- Dumped by pg_dump version 11.6 (Debian 11.6-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -16,27 +17,50 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: cf_common; Type: SCHEMA; Schema: -; Owner: hazardcontrib
+-- Name: cf_common; Type: SCHEMA; Schema: -; Owner: -
 --
 
 CREATE SCHEMA cf_common;
 
 
-ALTER SCHEMA cf_common OWNER TO hazardcontrib;
-
 --
--- Name: SCHEMA cf_common; Type: COMMENT; Schema: -; Owner: hazardcontrib
+-- Name: SCHEMA cf_common; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON SCHEMA cf_common IS 'Common elements for all Challenge Fund Database Schemas';
 
+
+--
+-- Name: occupancy_enum; Type: TYPE; Schema: cf_common; Owner: -
+--
+
+CREATE TYPE cf_common.occupancy_enum AS ENUM (
+    'Residential',
+    'Commercial',
+    'Industrial',
+    'Infrastructure',
+    'Healthcare',
+    'Educational',
+    'Government',
+    'Crop',
+    'Livestock',
+    'Forestry',
+    'Mixed'
+);
+
+
+--
+-- Name: TYPE occupancy_enum; Type: COMMENT; Schema: cf_common; Owner: -
+--
+
+COMMENT ON TYPE cf_common.occupancy_enum IS 'Types of Occupancy or building/structure use';
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: hazard_type; Type: TABLE; Schema: cf_common; Owner: hazardcontrib
+-- Name: hazard_type; Type: TABLE; Schema: cf_common; Owner: -
 --
 
 CREATE TABLE cf_common.hazard_type (
@@ -45,17 +69,15 @@ CREATE TABLE cf_common.hazard_type (
 );
 
 
-ALTER TABLE cf_common.hazard_type OWNER TO hazardcontrib;
-
 --
--- Name: TABLE hazard_type; Type: COMMENT; Schema: cf_common; Owner: hazardcontrib
+-- Name: TABLE hazard_type; Type: COMMENT; Schema: cf_common; Owner: -
 --
 
-COMMENT ON TABLE cf_common.hazard_type IS 'Valid Process types by Hazard type';
+COMMENT ON TABLE cf_common.hazard_type IS 'Valid Hazard types';
 
 
 --
--- Name: imt; Type: TABLE; Schema: cf_common; Owner: hazardcontrib
+-- Name: imt; Type: TABLE; Schema: cf_common; Owner: -
 --
 
 CREATE TABLE cf_common.imt (
@@ -67,10 +89,8 @@ CREATE TABLE cf_common.imt (
 );
 
 
-ALTER TABLE cf_common.imt OWNER TO hazardcontrib;
-
 --
--- Name: license; Type: TABLE; Schema: cf_common; Owner: hazardcontrib
+-- Name: license; Type: TABLE; Schema: cf_common; Owner: -
 --
 
 CREATE TABLE cf_common.license (
@@ -81,17 +101,15 @@ CREATE TABLE cf_common.license (
 );
 
 
-ALTER TABLE cf_common.license OWNER TO hazardcontrib;
-
 --
--- Name: TABLE license; Type: COMMENT; Schema: cf_common; Owner: hazardcontrib
+-- Name: TABLE license; Type: COMMENT; Schema: cf_common; Owner: -
 --
 
 COMMENT ON TABLE cf_common.license IS 'List of supported licenses';
 
 
 --
--- Name: process_type; Type: TABLE; Schema: cf_common; Owner: hazardcontrib
+-- Name: process_type; Type: TABLE; Schema: cf_common; Owner: -
 --
 
 CREATE TABLE cf_common.process_type (
@@ -101,10 +119,8 @@ CREATE TABLE cf_common.process_type (
 );
 
 
-ALTER TABLE cf_common.process_type OWNER TO hazardcontrib;
-
 --
--- Data for Name: hazard_type; Type: TABLE DATA; Schema: cf_common; Owner: hazardcontrib
+-- Data for Name: hazard_type; Type: TABLE DATA; Schema: cf_common; Owner: -
 --
 
 COPY cf_common.hazard_type (code, name) FROM stdin;
@@ -124,7 +140,7 @@ MH	Multi-Hazard
 
 
 --
--- Data for Name: imt; Type: TABLE DATA; Schema: cf_common; Owner: hazardcontrib
+-- Data for Name: imt; Type: TABLE DATA; Schema: cf_common; Owner: -
 --
 
 COPY cf_common.imt (process_code, hazard_code, im_code, description, units) FROM stdin;
@@ -190,7 +206,7 @@ DTM	DR	SPI:-	Standard Precipitation Index	-
 
 
 --
--- Data for Name: license; Type: TABLE DATA; Schema: cf_common; Owner: hazardcontrib
+-- Data for Name: license; Type: TABLE DATA; Schema: cf_common; Owner: -
 --
 
 COPY cf_common.license (code, name, notes, url) FROM stdin;
@@ -204,7 +220,7 @@ CC BY-SA 4.0	Creative Commons Attribution Share-Alike 4.0 (CC-BY-SA-4.0)	\N	http
 
 
 --
--- Data for Name: process_type; Type: TABLE DATA; Schema: cf_common; Owner: hazardcontrib
+-- Data for Name: process_type; Type: TABLE DATA; Schema: cf_common; Owner: -
 --
 
 COPY cf_common.process_type (code, hazard_code, name) FROM stdin;
@@ -239,7 +255,7 @@ TOR	CS	Tornado
 
 
 --
--- Name: hazard_type_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
+-- Name: hazard_type hazard_type_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: -
 --
 
 ALTER TABLE ONLY cf_common.hazard_type
@@ -247,7 +263,7 @@ ALTER TABLE ONLY cf_common.hazard_type
 
 
 --
--- Name: imt_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
+-- Name: imt imt_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: -
 --
 
 ALTER TABLE ONLY cf_common.imt
@@ -255,7 +271,15 @@ ALTER TABLE ONLY cf_common.imt
 
 
 --
--- Name: process_type_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
+-- Name: license license_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: -
+--
+
+ALTER TABLE ONLY cf_common.license
+    ADD CONSTRAINT license_pkey PRIMARY KEY (code);
+
+
+--
+-- Name: process_type process_type_pkey; Type: CONSTRAINT; Schema: cf_common; Owner: -
 --
 
 ALTER TABLE ONLY cf_common.process_type
@@ -263,15 +287,7 @@ ALTER TABLE ONLY cf_common.process_type
 
 
 --
--- Name: unique_code; Type: CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
---
-
-ALTER TABLE ONLY cf_common.license
-    ADD CONSTRAINT unique_code UNIQUE (code);
-
-
---
--- Name: unique_code_hazard_code; Type: CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
+-- Name: process_type unique_code_hazard_code; Type: CONSTRAINT; Schema: cf_common; Owner: -
 --
 
 ALTER TABLE ONLY cf_common.process_type
@@ -279,7 +295,7 @@ ALTER TABLE ONLY cf_common.process_type
 
 
 --
--- Name: imt_process_code_fkey; Type: FK CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
+-- Name: imt imt_process_code_fkey; Type: FK CONSTRAINT; Schema: cf_common; Owner: -
 --
 
 ALTER TABLE ONLY cf_common.imt
@@ -287,52 +303,11 @@ ALTER TABLE ONLY cf_common.imt
 
 
 --
--- Name: process_type_hazard_code_fkey; Type: FK CONSTRAINT; Schema: cf_common; Owner: hazardcontrib
+-- Name: process_type process_type_hazard_code_fkey; Type: FK CONSTRAINT; Schema: cf_common; Owner: -
 --
 
 ALTER TABLE ONLY cf_common.process_type
     ADD CONSTRAINT process_type_hazard_code_fkey FOREIGN KEY (hazard_code) REFERENCES cf_common.hazard_type(code);
-
-
---
--- Name: SCHEMA cf_common; Type: ACL; Schema: -; Owner: hazardcontrib
---
-
-REVOKE ALL ON SCHEMA cf_common FROM PUBLIC;
-REVOKE ALL ON SCHEMA cf_common FROM hazardcontrib;
-GRANT ALL ON SCHEMA cf_common TO hazardcontrib;
-GRANT USAGE ON SCHEMA cf_common TO hazardviewer;
-
-
---
--- Name: TABLE hazard_type; Type: ACL; Schema: cf_common; Owner: hazardcontrib
---
-
-REVOKE ALL ON TABLE cf_common.hazard_type FROM PUBLIC;
-REVOKE ALL ON TABLE cf_common.hazard_type FROM hazardcontrib;
-GRANT ALL ON TABLE cf_common.hazard_type TO hazardcontrib;
-GRANT SELECT ON TABLE cf_common.hazard_type TO hazardviewer;
-
-
---
--- Name: TABLE license; Type: ACL; Schema: cf_common; Owner: hazardcontrib
---
-
-REVOKE ALL ON TABLE cf_common.license FROM PUBLIC;
-REVOKE ALL ON TABLE cf_common.license FROM hazardcontrib;
-GRANT ALL ON TABLE cf_common.license TO hazardcontrib;
-GRANT SELECT ON TABLE cf_common.license TO hazardviewer;
-
-
---
--- Name: TABLE process_type; Type: ACL; Schema: cf_common; Owner: hazardcontrib
---
-
-REVOKE ALL ON TABLE cf_common.process_type FROM PUBLIC;
-REVOKE ALL ON TABLE cf_common.process_type FROM hazardcontrib;
-GRANT ALL ON TABLE cf_common.process_type TO hazardcontrib;
-GRANT SELECT ON TABLE cf_common.process_type TO hazardviewer;
-
 
 --
 -- PostgreSQL database dump complete
