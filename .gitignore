@@ -109,3 +109,4 @@ old
 # Ignore db_settings file - (may contain passwords)
 sql/db_settings.sh
 
+data/old

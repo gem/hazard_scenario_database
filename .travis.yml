@@ -1,4 +1,4 @@
-dist: xenial
+dist: bionic
 language: python
 
 jobs:
@@ -13,10 +13,10 @@ jobs:
   - stage: test
     env: POSTGRES
     addons:
-      postgresql: 9.5
+      postgresql: 10
       apt:
         packages:
-        - postgresql-9.5-postgis-2.4
+        - postgresql-10-postgis-2.4
     
     before_script:
      - echo "\set ON_ERROR_STOP on" > ~/.psqlrc

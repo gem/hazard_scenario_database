@@ -2,7 +2,7 @@
   "contribution": {                                                             
     "model_date": "2016-01-01",                                                 
     "model_source": "GFDRR SWIO RAFI Project",                                  
-    "license_code": "CC-BY-SA-4.0",                                             
+    "license_code": "CC BY-SA 4.0",
     "purpose": "National and administrative level risk assessment"              
   },                                                                            
   "is_prob": "True",
@@ -13,8 +13,10 @@
   "geographic_area_bb": [ -1, -1, 1, 1 ], 
   "geographic_area_name": "Madagascar", 
   "contribution": {
-    "license_code": "CC-BY-SA-4.0",
-    ""
+    "model_date": "2016-01-01",
+    "model_source": "GFDRR SWIO RAFI Project",
+    "license_code": "CC BY-SA 4.0",
+    "purpose": "National and administrative level risk assessment"
   },
   "events": [
     {
@@ -23,7 +25,7 @@
       "frequency": 0.1,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (kph) 10yr",
+          "imt": "v_tcy(1m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -33,7 +35,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (kph) 10yr",
+          "imt": "v_tcy(10m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -43,7 +45,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (kph) 10yr",
+          "imt": "v_tcy(3s):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -60,7 +62,7 @@
       "frequency": 0.04,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (kph) 25yr",
+          "imt": "v_tcy(1m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -70,7 +72,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (kph) 25yr",
+          "imt": "v_tcy(10m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -80,7 +82,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (kph) 25yr",
+          "imt": "v_tcy(3s):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -97,7 +99,7 @@
       "frequency": 0.02,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (kph) 50yr",
+          "imt": "v_tcy(1m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -107,7 +109,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (kph) 50yr",
+          "imt": "v_tcy(10m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -117,7 +119,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (kph) 50yr",
+          "imt": "v_tcy(3s):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -134,7 +136,7 @@
       "frequency": 0.01,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (kph) 100yr",
+          "imt": "v_tcy(1m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -144,7 +146,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (kph) 100yr",
+          "imt": "v_tcy(10m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -154,7 +156,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (kph) 100yr",
+          "imt": "v_tcy(3s):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -171,7 +173,7 @@
       "frequency": 0.004,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (kph) 250yr",
+          "imt": "v_tcy(1m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -181,7 +183,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (kph) 250yr",
+          "imt": "v_tcy(10m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -191,7 +193,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (kph) 250yr",
+          "imt": "v_tcy(3s):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -208,7 +210,7 @@
       "frequency": 0.002,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (kph) 500yr",
+          "imt": "v_tcy(1m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -218,7 +220,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (kph) 500yr",
+          "imt": "v_tcy(10m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -228,7 +230,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (kph) 500yr",
+          "imt": "v_tcy(3s):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -245,7 +247,7 @@
       "frequency": 0.0001,
       "footprint_sets": [
         {
-          "imt": "1-min sustained wind (kph) 1000yr",
+          "imt": "v_tcy(1m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -255,7 +257,7 @@
           ] 
         },
         {
-          "imt": "10-min sustained wind (kph) 1000yr",
+          "imt": "v_tcy(10m):km/h",
           "process_type": "TCY",
           "footprints": [
             {
@@ -265,7 +267,7 @@
           ] 
         },
         {
-          "imt": "3-sec sustained wind (kph) 1000yr",
+          "imt": "v_tcy(3s):km/h",
           "process_type": "TCY",
           "footprints": [
             {

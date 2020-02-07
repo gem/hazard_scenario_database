@@ -22,7 +22,7 @@
 Import a hazard scenario EventSet into the hazard scenario Database
 """
 import sys
-from cf_common import License, Contribution
+from cf_common import Contribution
 from database import db_connections
 import db_settings
 
@@ -180,7 +180,6 @@ def _import_footprint_data_via_query(cursor, fpid, data_query, fp):
 
 
 def _import_footprint_data(cursor, fpid, data):
-    # TODO investigate use of cursor.copy_from() and/or batch insert
     for row in data:
         cursor.execute(_FOOTPRINT_DATA_QUERY, [
             fpid,
@@ -223,7 +222,7 @@ def _import_events(cursor, event_set_id, events):
 _CONTRIBUTION_QUERY = """
 INSERT INTO hazard.contribution (
     event_set_id, model_source, model_date,
-    notes, license_id, version, purpose)
+    notes, license_code, version, purpose)
 VALUES(
     %s, %s, %s,
     %s, %s, %s, %s
@@ -240,7 +239,7 @@ def _import_contribution(cursor, event_set_id, cntr):
         contribution.model_source,
         contribution.model_date,
         contribution.notes,
-        contribution.license_id,
+        contribution.license_code,
         contribution.version,
         contribution.purpose
     ])
@@ -275,8 +274,6 @@ def import_event_set(es):
     connections = db_connections(db_settings.db_confs)
 
     with connections['hazard_contrib'].cursor() as cursor:
-        License.load_licenses(cursor)
-        # TODO investigate commit/rollback
         event_set_id = _import_event_set(cursor, es)
         _import_contribution(cursor, event_set_id, es.contribution)
         verbose_message('Inserted event_set, id={0}\n'.format(event_set_id))
